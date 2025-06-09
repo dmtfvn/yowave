@@ -5,13 +5,20 @@ YOWAVE is a simple chat application.
 <br>
 
 **Client tech stack:**
->*React JS*
+>*React*
 
 >*TypeScript*
 
->*Tailwind CSS*
+>*Tailwind*
 
 >*Yup*
+
+<br>
+
+**Server tech stack:**
+>*Express*
+
+>*TypeScript*
 
 <br>
 
