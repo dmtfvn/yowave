@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import 'tailwindcss';
+
+@import '../src/componens/inputs/auth-input/auth-input.css';
+@import '../src/componens/buttons/submit-button/submit-button.css';
+
+@theme {
+  --color-yt-ish: hsl(0, 0%, 95%);
+  --color-blk-ish: hsl(0, 0%, 9%);
+
+  --font-roboto: 'Roboto', 'Arial', sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-roboto);
+  }
+}
+
+@utility flex-center {
+  @apply flex justify-center items-center;
+}
+
+@utility label-style {
+  @apply text-sm/6 font-medium text-stone-700;
+}
+
+@utility error-msg {
+  @apply text-sm/6 text-red-400;
+}
+
+body {
+  @apply bg-[var(--color-blk-ish)];
+}
