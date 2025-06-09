@@ -3,6 +3,7 @@ import { RequestInterface, RequestOptionsInterface } from '../interfaces/Request
 async function request({ method, url, data }: RequestInterface): Promise<Record<string, string> | undefined> {
   const options: RequestOptionsInterface = {
     method,
+    credentials: 'include',
     headers: {}
   };
 

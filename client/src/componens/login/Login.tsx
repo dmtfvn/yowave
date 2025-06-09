@@ -23,7 +23,10 @@ export default function Login() {
     const userData = Object.fromEntries(formData);
 
     try {
-      await login(userData.email, userData.password);
+      await login(
+        userData.email,
+        userData.password
+      );
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

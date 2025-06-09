@@ -1,9 +1,12 @@
-// import { useEffect } from 'react';
+import { useState } from 'react';
 
 import request from '../utils/request.js';
 import { baseUrl } from '../utils/consts.js';
 
-const url = `${baseUrl}/users`;
+import { signupSchema } from '../schemas/signupSchema.js';
+import useErrors from '../hooks/useErrors.js';
+
+const url = `${baseUrl}/api/auth`;
 
 export const useLogin = () => {
   const login = async (email: FormDataEntryValue, password: FormDataEntryValue) => {
@@ -18,12 +21,49 @@ export const useLogin = () => {
 }
 
 export const useRegister = () => {
-  const register = (username: string, email: string, password: string) => {
-    return request.post(`${url}/register`, { username, email, password } as Record<string, string>);
+  const [isPending, setIsPending] = useState(false);
+
+  const { errors, errorsHandler } = useErrors();
+
+  const registerHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsPending(true);
+
+    const form = e.target as HTMLFormElement;
+
+    const formData = new FormData(form);
+    const userData = Object.fromEntries(formData);
+
+    try {
+      const yupData = await signupSchema.validate(userData, {
+        abortEarly: false,
+      });
+
+      const authData = await request.post(`${url}/register`, {
+        username: yupData.username,
+        email: yupData.email,
+        password: yupData.password,
+      });
+
+      console.log(authData)//for user context
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        errorsHandler(err);
+      } else {
+        errorsHandler(new Error('Unknown error'));
+      }
+    } finally {
+      setIsPending(false);
+    }
+
+    console.log(userData)
   }
 
   return {
-    register,
+    isPending,
+    errors,
+    registerHandler,
   };
 }
 

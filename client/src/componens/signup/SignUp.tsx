@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router';
 
 import AuthInputCtrl from '../inputs/auth-input/AuthInputCtrl';
 import AuthInputUnctrl from '../inputs/auth-input/AuthInputUnctrl';
 import SubmitButton from '../buttons/submit-button/SubmitButton';
-import useErrorState from '../../hooks/useErrorState';
+
+import { useRegister } from '../../api/authApi';
 
 export default function SignUp() {
-  const [formState, setFormState] = useState<Record<string, string>>({
+  const [formState, setFormState] = useState({
     username: '',
     email: '',
   });
 
-  const { errors } = useErrorState();
+  const { isPending, errors, registerHandler } = useRegister();
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,7 +30,7 @@ export default function SignUp() {
         Create a new account
       </h1>
 
-      <form action="" className="space-y-9">
+      <form onSubmit={registerHandler} className="space-y-9">
         <div>
           <label htmlFor="username" className="label-style">
             Username
@@ -104,7 +105,7 @@ export default function SignUp() {
 
         <SubmitButton
           label="Sign Up"
-          pending={false}
+          pending={isPending}
           style="submit-style"
         />
       </form>

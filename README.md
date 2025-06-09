@@ -20,6 +20,12 @@ YOWAVE is a simple chat application.
 
 >*TypeScript*
 
+>*Socket.IO*
+
+>*CORS*
+
+>*Helmet*
+
 <br>
 
 ### Project current state:
