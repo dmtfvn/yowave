@@ -1,18 +1,25 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+import { Request, Response } from 'express-serve-static-core';
 
-import { RegisterInterface } from '../interfaces/RegisterInterface';
+import { RegisterUserInterface } from '../interfaces/request/RegisterUserInterface';
+import { CreatedUserInterface } from '../interfaces/response/CreatedUserInterface';
 
 const authController = Router();
 
 authController.post('/register', (
-  req: Request<{}, {}, RegisterInterface>,
-  res: Response
+  req: Request<{}, {}, RegisterUserInterface>,
+  res: Response<CreatedUserInterface>
 ) => {
-  const userData = req.body;
+  const { password, ...userData } = req.body;
 
   console.log(userData)
 
-  res.json(userData);
+  const newUser: CreatedUserInterface = {
+    ...userData,
+    id: 'u1',
+  };
+
+  res.json(newUser);
 });
 
 export default authController;
