@@ -1,4 +1,4 @@
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 
 import request from '../utils/request.js';
 import { baseUrl } from '../utils/consts.js';
@@ -9,14 +9,39 @@ import useErrors from '../hooks/useErrors.js';
 const url = `${baseUrl}/api/auth`;
 
 export const useLogin = () => {
-  const login = async (email: FormDataEntryValue, password: FormDataEntryValue) => {
-    const result = await request.post(`${url}/login`, { email, password } as Record<string, string>);
+  const [error, setError] = useState('');
 
-    return result;
+  const loginHandler = async (_: void, formData: FormData): Promise<void> => {
+    const userData = Object.fromEntries(formData.entries());
+
+    try {
+      if (Object.values(userData).some(el => el === '')) {
+        throw new Error('All fields are required');
+      }
+
+      const authData = await request.post(`${url}/login`, {
+        email: userData.email.toString().trim(),
+        password: userData.password.toString().trim(),
+      });
+
+      console.log(authData)//for user context
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Unknown error');
+      }
+    }
+
+    console.log(userData);
   }
 
+  const [, loginAction, isPending] = useActionState(loginHandler, undefined);
+
   return {
-    login,
+    error,
+    isPending,
+    loginAction,
   };
 }
 

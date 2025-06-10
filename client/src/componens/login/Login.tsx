@@ -1,46 +1,12 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
-
-import { useLogin } from '../../api/authApi';
 
 import AuthInputUnctrl from '../inputs/auth-input/AuthInputUnctrl';
 import SubmitButton from '../buttons/submit-button/SubmitButton';
 
+import { useLogin } from '../../api/authApi';
+
 export default function Login() {
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState('');
-
-  const { login } = useLogin();
-
-  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setIsPending(true);
-
-    const form = e.target as HTMLFormElement;
-
-    const formData = new FormData(form);
-    const userData = Object.fromEntries(formData);
-
-    try {
-      await login(
-        userData.email,
-        userData.password
-      );
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Unknown error');
-      }
-
-      form.reset();
-    } finally {
-      setIsPending(false);
-    }
-
-    console.log(userData);
-  }
+  const { error, isPending, loginAction } = useLogin();
 
   return (
     <section className="flex max-w-[17.5em] flex-1 flex-col justify-center py-12">
@@ -48,7 +14,7 @@ export default function Login() {
         Sign in your account
       </h1>
 
-      <form onSubmit={loginHandler} className="space-y-9">
+      <form action={loginAction} className="space-y-9">
         <div>
           <label htmlFor="email" className="label-style">
             Email

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 
 import AuthInputCtrl from '../inputs/auth-input/AuthInputCtrl';
@@ -13,7 +13,7 @@ export default function SignUp() {
     email: '',
   });
 
-  const { isPending, errors, registerAction } = useRegister();
+  const { errors, isPending, registerAction } = useRegister();
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
