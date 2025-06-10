@@ -26,6 +26,8 @@ YOWAVE is a simple chat application.
 
 >*Helmet*
 
+>*Yup*
+
 <br>
 
 ### Project current state:

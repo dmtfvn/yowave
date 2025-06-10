@@ -4,6 +4,6 @@ import authController from './controllers/auth';
 
 const routes = Router();
 
-routes.use('/api/auth', authController);
+routes.use('/auth', authController);
 
 export default routes;

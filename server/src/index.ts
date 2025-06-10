@@ -15,13 +15,12 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
-
 const io = new Server(httpServer, {
   cors: corsOptions,
 });
 
 app.use(helmet());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(routes);
 
