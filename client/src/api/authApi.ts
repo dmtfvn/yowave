@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useActionState } from 'react';
 
 import request from '../utils/request.js';
 import { baseUrl } from '../utils/consts.js';
@@ -21,19 +21,10 @@ export const useLogin = () => {
 }
 
 export const useRegister = () => {
-  const [isPending, setIsPending] = useState(false);
-
   const { errors, errorsHandler } = useErrors();
 
-  const registerHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setIsPending(true);
-
-    const form = e.target as HTMLFormElement;
-
-    const formData = new FormData(form);
-    const userData = Object.fromEntries(formData);
+  const registerHandler = async (_: void, formData: FormData): Promise<void> => {
+    const userData = Object.fromEntries(formData.entries());
 
     try {
       const yupData = await signupSchema.validate(userData, {
@@ -53,17 +44,17 @@ export const useRegister = () => {
       } else {
         errorsHandler(new Error('Unknown error'));
       }
-    } finally {
-      setIsPending(false);
     }
 
     console.log(userData)
   }
 
+  const [, registerAction, isPending] = useActionState(registerHandler, undefined);
+
   return {
-    isPending,
     errors,
-    registerHandler,
+    isPending,
+    registerAction,
   };
 }
 

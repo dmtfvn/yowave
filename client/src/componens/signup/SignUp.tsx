@@ -13,7 +13,7 @@ export default function SignUp() {
     email: '',
   });
 
-  const { isPending, errors, registerHandler } = useRegister();
+  const { isPending, errors, registerAction } = useRegister();
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,7 +30,7 @@ export default function SignUp() {
         Create a new account
       </h1>
 
-      <form onSubmit={registerHandler} className="space-y-9">
+      <form action={registerAction} className="space-y-9">
         <div>
           <label htmlFor="username" className="label-style">
             Username

@@ -5,7 +5,7 @@ import { ValidationError, ValidationErrorDetails } from '../interfaces/Validatio
 export default function useErrors() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const errorsHandler = (error: Error | ValidationError) => {
+  const errorsHandler = (error: Error | ValidationError): void => {
     if ((error as ValidationError).name === 'ValidationError') {
       const accErrors = (error as ValidationError).inner.reduce(
         (acc: Record<string, string>, err: ValidationErrorDetails) => {
