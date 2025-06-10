@@ -3,10 +3,10 @@ import { useActionState, useState } from 'react';
 import request from '../utils/request.js';
 import { baseUrl } from '../utils/consts.js';
 
-import { signupSchema } from '../schemas/signupSchema.js';
+import { SignupFormValues, signupSchema } from '../schemas/signupSchema.js';
 import useErrors from '../hooks/useErrors.js';
 
-const url = `${baseUrl}/api/auth`;
+const url = `${baseUrl}/auth`;
 
 export const useLogin = () => {
   const [error, setError] = useState('');
@@ -20,8 +20,8 @@ export const useLogin = () => {
       }
 
       const authData = await request.post(`${url}/login`, {
-        email: userData.email.toString().trim(),
-        password: userData.password.toString().trim(),
+        email: userData.email.toString(),
+        password: userData.password.toString(),
       });
 
       console.log(authData)//for user context
@@ -52,7 +52,7 @@ export const useRegister = () => {
     const userData = Object.fromEntries(formData.entries());
 
     try {
-      const yupData = await signupSchema.validate(userData, {
+      const yupData: SignupFormValues = await signupSchema.validate(userData, {
         abortEarly: false,
       });
 
@@ -82,16 +82,3 @@ export const useRegister = () => {
     registerAction,
   };
 }
-
-// export const useLogout = () => {
-//   useEffect(() => {
-//     request.get(`${url}/logout`, undefined)
-//       .finally(() => {
-//         userLogout();
-//       });
-//   }, [userLogout]);
-
-//   return {
-//     isLoggedOut: !!accessToken,
-//   };
-// }
