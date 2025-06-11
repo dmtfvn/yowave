@@ -22,11 +22,20 @@ YOWAVE is a simple chat application.
 
 >*Socket.IO*
 
->*CORS*
-
 >*Helmet*
 
+>*CORS*
+
+>*express-session*
+
+>*bcrypt*
+
 >*Yup*
+
+<br>
+
+**Database:**
+>*PostgreSQL 17*
 
 <br>
 
