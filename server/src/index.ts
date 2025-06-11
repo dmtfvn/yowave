@@ -3,6 +3,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import helmet from 'helmet';
 import cors from 'cors';
+import session from 'express-session';
+import 'dotenv/config';
 
 import routes from './routes';
 
@@ -22,6 +24,17 @@ const io = new Server(httpServer, {
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(session({
+  secret: process.env.COOKIE_SECRET as string,
+  name: 'sessionId',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.ENVIRONMENT === 'production',
+    httpOnly: true,
+    sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
+  }
+}));
 app.use(routes);
 
 io.on('connection', (socket) => {
