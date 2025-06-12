@@ -1,10 +1,10 @@
-import { SubmitButtonType } from '../../../types/SubmitButtonType';
+import { SubmitButtonT } from '../../../types/SubmitButtonT';
 
 export default function SubmitButton({
   pending,
   style,
   label,
-}: SubmitButtonType) {
+}: SubmitButtonT) {
   return (
     <button
       type="submit"

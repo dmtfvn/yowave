@@ -1,10 +1,10 @@
-import { AuthInputUnctrlType } from '../../../types/AuthInputUnctrlType';
+import { AuthInputUnctrlT } from '../../../types/AuthInputUnctrlT';
 
 export default function AuthInputUnctrl({
   label,
   hint,
   error,
-}: AuthInputUnctrlType) {
+}: AuthInputUnctrlT) {
   return (
     <input
       id={label}

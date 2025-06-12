@@ -1,4 +1,4 @@
-import { AuthInputCtrlType } from "../../../types/AuthInputCtrlType";
+import { AuthInputCtrlT } from '../../../types/AuthInputCtrlT';
 
 export default function AuthInputCtrl({
   label,
@@ -6,7 +6,7 @@ export default function AuthInputCtrl({
   error,
   inputValue,
   onTyping,
-}: AuthInputCtrlType) {
+}: AuthInputCtrlT) {
   return (
     <input
       id={label}

@@ -24,7 +24,7 @@ export const useLogin = () => {
         password: userData.password.toString(),
       });
 
-      console.log(authData)//for user context
+      console.log('login', authData)//for user context
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -32,8 +32,6 @@ export const useLogin = () => {
         setError('Unknown error');
       }
     }
-
-    console.log(userData);
   }
 
   const [, loginAction, isPending] = useActionState(loginHandler, undefined);
@@ -70,8 +68,6 @@ export const useRegister = () => {
         errorsHandler(new Error('Unknown error'));
       }
     }
-
-    console.log(userData)
   }
 
   const [, registerAction, isPending] = useActionState(registerHandler, undefined);

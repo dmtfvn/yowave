@@ -1,4 +1,4 @@
-export type AuthInputCtrlType = {
+export type AuthInputCtrlT = {
   label: string;
   hint: string;
   error: string;

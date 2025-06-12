@@ -5,6 +5,8 @@ import Header from './componens/header/Header';
 import Login from './componens/login/Login';
 import SignUp from './componens/signup/SignUp';
 
+import Home from './componens/home/Home';
+
 import './App.css';
 
 function App() {
@@ -16,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </main>
     </div>
