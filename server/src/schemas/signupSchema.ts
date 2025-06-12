@@ -24,4 +24,4 @@ export const signupSchema = Yup.object({
     .max(16, 'Password too long (max 16 chars)'),
 });
 
-export type RegisterFormValues = Yup.InferType<typeof signupSchema>;
+export type SignupFormValues = Yup.InferType<typeof signupSchema>;

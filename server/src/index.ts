@@ -1,9 +1,11 @@
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+
 import helmet from 'helmet';
 import cors from 'cors';
 import session from 'express-session';
+
 import 'dotenv/config';
 
 import routes from './routes';
@@ -26,7 +28,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(session({
   secret: process.env.COOKIE_SECRET as string,
-  name: 'sessionId',
+  name: 'sid',
   resave: false,
   saveUninitialized: false,
   cookie: {
