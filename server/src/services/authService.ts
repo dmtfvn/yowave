@@ -4,16 +4,15 @@ import bcrypt from 'bcrypt';
 import { LoginFormValues, loginSchema } from '../schemas/loginSchema';
 import { SignupFormValues, signupSchema } from '../schemas/signupSchema';
 
+import { AuthUserT } from '../interfaces/response/AuthUserT';
 import { AllUserDataT } from '../interfaces/user/AllUserDataT';
 import { UserDataT } from '../interfaces/user/UserDataT';
 import { NewUserT } from '../interfaces/user/NewUserT';
 
-import { AuthUserT } from '../interfaces/response/AuthUserT';
-import { FailedQueryT } from '../interfaces/response/FailedQueryT';
-
 import pool from '../config/db';
+import customAuthError from '../utils/customAuthError';
 
-async function login(formData: LoginFormValues): Promise<AuthUserT | FailedQueryT> {
+async function login(formData: LoginFormValues): Promise<AuthUserT> {
   const user: LoginFormValues = await loginSchema.validate(formData, {
     abortEarly: false,
   });
@@ -26,14 +25,16 @@ async function login(formData: LoginFormValues): Promise<AuthUserT | FailedQuery
 
   const result: QueryResult<AllUserDataT> = await pool.query(existingDataQuery, existingDataValues);
   if (!result.rowCount) {
-    console.log('No user found')
-    return { loggedIn: false, status: 'Invalid credentials' } as FailedQueryT;
+    const err = customAuthError();
+
+    throw err;
   }
 
   const passMatch = await bcrypt.compare(user.password, result.rows[0].passhash);
   if (!passMatch) {
-    console.log('No match')
-    return { loggedIn: false, status: 'Invalid credentials' } as FailedQueryT;
+    const err = customAuthError();
+
+    throw err;
   }
 
   return {
@@ -45,7 +46,7 @@ async function login(formData: LoginFormValues): Promise<AuthUserT | FailedQuery
   };
 }
 
-async function register(formData: SignupFormValues): Promise<AuthUserT | FailedQueryT> {
+async function register(formData: SignupFormValues): Promise<AuthUserT> {
   const user: SignupFormValues = await signupSchema.validate(formData, {
     abortEarly: false,
   });
@@ -58,7 +59,11 @@ async function register(formData: SignupFormValues): Promise<AuthUserT | FailedQ
 
   const result: QueryResult<UserDataT> = await pool.query(existingDataQuery, existingDataValues);
   if (result.rowCount) {
-    return { loggedIn: false, status: 'Username or email already taken' } as FailedQueryT;
+    const data = result.rows[0].username === user.username ? 'Username' : 'Email';
+
+    const err = customAuthError(data);
+
+    throw err;
   }
 
   const hashedPass = await bcrypt.hash(user.password, 10);

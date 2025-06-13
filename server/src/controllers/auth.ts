@@ -6,6 +6,7 @@ import { LoginUserT } from '../interfaces/request/LoginUserT';
 import { SignupUserT } from '../interfaces/request/SignupUserT';
 
 import { AuthUserT } from '../interfaces/response/AuthUserT';
+import { AuthErrorT } from '../interfaces/response/AuthErrorT';
 import { FailedQueryT } from '../interfaces/response/FailedQueryT';
 import { SessionUserT } from '../interfaces/session/SessionUserT';
 
@@ -22,15 +23,14 @@ authController.post('/login', async (
   try {
     const userData = await authService.login(formData);
 
-    if ('user' in userData && userData.user) {
-      (req.session as SessionUserT).user = userData;
+    (req.session as SessionUserT).user = userData;
 
-      res.status(200).json(userData);
-    } else {
-      res.status(422).json(userData);
-    }
+    res.status(200).json(userData);
   } catch (err: unknown) {
-    if (err instanceof Error) {
+    if (err instanceof Error && 'errorData' in err) {
+      const authError = err as AuthErrorT;
+      res.status(401).json(authError.errorData);
+    } else if (err instanceof Error) {
       console.log(err.message)
     } else if (err instanceof ValidationError) {
       console.log(err.errors)
@@ -51,16 +51,14 @@ authController.post('/register', async (
   try {
     const userData = await authService.register(formData);
 
-    if ('user' in userData && userData.user) {
-      (req.session as SessionUserT).user = userData;
+    (req.session as SessionUserT).user = userData;
 
-      res.status(200).json(userData);
-    } else {
-      res.status(422).json(userData);
-    }
-
+    res.status(200).json(userData);
   } catch (err) {
-    if (err instanceof Error) {
+    if (err instanceof Error && 'errorData' in err) {
+      const authError = err as AuthErrorT;
+      res.status(409).json(authError.errorData);
+    } else if (err instanceof Error) {
       console.log(err.message)
     } else if (err instanceof ValidationError) {
       console.log(err.errors)
