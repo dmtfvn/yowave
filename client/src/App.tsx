@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router';
 
+import UserProvider from './componens/provider/UserProvider';
+
 import Header from './componens/header/Header';
 
 import Login from './componens/login/Login';
@@ -11,17 +13,19 @@ import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen flex-center flex-col px-5">
-      <Header />
+    <UserProvider>
+      <div className="min-h-screen flex-center flex-col px-5">
+        <Header />
 
-      <main className="flex-center grow w-full">
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </main>
-    </div>
+        <main className="flex-center grow w-full">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </main>
+      </div>
+    </UserProvider>
   );
 }
 

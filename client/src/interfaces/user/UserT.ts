@@ -1,4 +1,4 @@
-export interface UserDataI {
+export interface UserT {
   id: string;
   username: string;
 }

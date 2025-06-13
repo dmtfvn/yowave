@@ -1,4 +1,4 @@
-import { AuthInputCtrlT } from '../../../types/AuthInputCtrlT';
+import { AuthInputCtrlT } from '../../../interfaces/inputs/AuthInputCtrlT';
 
 export default function AuthInputCtrl({
   label,

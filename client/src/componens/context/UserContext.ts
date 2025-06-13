@@ -1,10 +1,13 @@
 import { createContext } from 'react';
 
-import { UserContextI } from '../../interfaces/user/UserContextI';
+import { UserContextT } from '../../interfaces/user/UserContextT';
 
-export const UserContext = createContext<UserContextI>({
-  id: '',
-  username: '',
+export const UserContext = createContext<UserContextT>({
+  loggedIn: false,
+  user: {
+    id: '',
+    username: '',
+  },
   userLogin: () => null,
   userLogout: () => null,
 });

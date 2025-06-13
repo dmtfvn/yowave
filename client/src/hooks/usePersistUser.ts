@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { UserDataI } from '../interfaces/user/UserDataI';
+import { UserDataT } from '../interfaces/user/UserDataT';
 
-export default function usePersistUser(key: string, initialState: UserDataI) {
+export default function usePersistUser(key: string, initialState: UserDataT) {
   const [userState, setUserState] = useState(initialState);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function usePersistUser(key: string, initialState: UserDataI) {
     }
   }, [key]);
 
-  const setPersist = (newState: UserDataI) => {
+  const setPersist = (newState: UserDataT) => {
     setUserState(newState);
 
     localStorage.setItem(key, JSON.stringify(newState));

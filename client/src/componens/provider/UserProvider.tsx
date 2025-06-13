@@ -1,23 +1,29 @@
 import { UserContext } from '../context/UserContext';
 import usePersistUser from '../../hooks/usePersistUser';
 
-import { UserProviderI } from '../../interfaces/user/UserProviderI';
-import { UserDataI } from '../../interfaces/user/UserDataI';
+import { UserProviderT } from '../../interfaces/user/UserProviderT';
+import { UserDataT } from '../../interfaces/user/UserDataT';
 
-export default function UserProvider({ children }: UserProviderI) {
+export default function UserProvider({ children }: UserProviderT) {
   const { userState, setPersist } = usePersistUser('auth', {
-    id: '',
-    username: '',
+    loggedIn: false,
+    user: {
+      id: '',
+      username: '',
+    }
   });
 
-  const userLogin = (authData: UserDataI) => {
+  const userLogin = (authData: UserDataT) => {
     setPersist(authData);
   }
 
   const userLogout = () => {
     setPersist({
-      id: '',
-      username: '',
+      loggedIn: false,
+      user: {
+        id: '',
+        username: '',
+      }
     });
   }
 

@@ -1,11 +1,11 @@
-import { RequestI } from '../interfaces/request/RequestI';
-import { RequestOptionsI } from '../interfaces/request/RequestOptionsI';
-import { RequestErrorI } from '../interfaces/request/RequestErrorI';
+import { RequestT } from '../interfaces/request/RequestT';
+import { RequestOptionsT } from '../interfaces/request/RequestOptionsT';
+import { RequestErrorT } from '../interfaces/request/RequestErrorT';
 
-import { ResponseI } from '../interfaces/response/ResponseI';
+import { UserDataT } from '../interfaces/user/UserDataT';
 
-async function request({ method, url, data }: RequestI): Promise<ResponseI | undefined> {
-  const options: RequestOptionsI = {
+async function request({ method, url, data }: RequestT): Promise<UserDataT | undefined> {
+  const options: RequestOptionsT = {
     method,
     credentials: 'include',
     headers: {}
@@ -20,13 +20,13 @@ async function request({ method, url, data }: RequestI): Promise<ResponseI | und
     const res = await fetch(url, options);
 
     if (!res.ok) {
-      const err: RequestErrorI = await res.json();
+      const err: RequestErrorT = await res.json();
 
       throw new Error(err.message);
     }
 
     if (res.status !== 204) {
-      const data: ResponseI = await res.json();
+      const data: UserDataT = await res.json();
 
       return data;
     }

@@ -6,10 +6,14 @@ import { baseUrl } from '../utils/consts.js';
 import { SignupFormValues, signupSchema } from '../schemas/signupSchema.js';
 import useErrors from '../hooks/useErrors.js';
 
+import useUserContext from '../hooks/useUserContext.js';
+
 const url = `${baseUrl}/auth`;
 
 export const useLogin = () => {
   const [error, setError] = useState('');
+
+  const { userLogin } = useUserContext();
 
   const loginHandler = async (_: void, formData: FormData): Promise<void> => {
     const userData = Object.fromEntries(formData.entries());
@@ -24,7 +28,12 @@ export const useLogin = () => {
         password: userData.password.toString(),
       });
 
-      console.log('login', authData)//for user context
+      if (authData === undefined) {
+        throw new Error('No user data');
+      }
+
+      console.log('login', authData)
+      userLogin(authData);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -46,6 +55,8 @@ export const useLogin = () => {
 export const useRegister = () => {
   const { errors, errorsHandler } = useErrors();
 
+  const { userLogin } = useUserContext();
+
   const registerHandler = async (_: void, formData: FormData): Promise<void> => {
     const userData = Object.fromEntries(formData.entries());
 
@@ -60,7 +71,12 @@ export const useRegister = () => {
         password: yupData.password,
       });
 
-      console.log(authData)//for user context
+      if (authData === undefined) {
+        throw new Error('Registration failed');
+      }
+
+      console.log(authData)
+      userLogin(authData);
     } catch (err: unknown) {
       if (err instanceof Error) {
         errorsHandler(err);
