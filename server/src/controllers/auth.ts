@@ -2,36 +2,30 @@ import { Router } from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import { ValidationError } from 'yup';
 
-import { LoginUserI } from '../interfaces/request/LoginUserI';
-import { SignupUserI } from '../interfaces/request/SignupUserI';
+import { LoginUserT } from '../interfaces/request/LoginUserT';
+import { SignupUserT } from '../interfaces/request/SignupUserT';
 
-import { AuthUserI } from '../interfaces/response/AuthUserI';
-import { FailedQueryI } from '../interfaces/response/FailedQueryI';
-
-import { SessionUserI } from '../interfaces/session/SessionUserI';
+import { AuthUserT } from '../interfaces/response/AuthUserT';
+import { FailedQueryT } from '../interfaces/response/FailedQueryT';
+import { SessionUserT } from '../interfaces/session/SessionUserT';
 
 import authService from '../services/authService';
 
 const authController = Router();
 
 authController.post('/login', async (
-  req: Request<{}, {}, LoginUserI>,
-  res: Response<AuthUserI | FailedQueryI>
+  req: Request<{}, {}, LoginUserT>,
+  res: Response<AuthUserT | FailedQueryT>
 ) => {
   const formData = req.body;
 
   try {
     const userData = await authService.login(formData);
 
-    if ('id' in userData && 'username' in userData) {
-      const conciseUser: AuthUserI = {
-        id: userData.id,
-        username: userData.username
-      };
+    if ('user' in userData && userData.user) {
+      (req.session as SessionUserT).user = userData;
 
-      (req.session as SessionUserI).user = conciseUser;
-
-      res.status(200).json(conciseUser);
+      res.status(200).json(userData);
     } else {
       res.status(422).json(userData);
     }
@@ -49,22 +43,22 @@ authController.post('/login', async (
 });
 
 authController.post('/register', async (
-  req: Request<{}, {}, SignupUserI>,
-  res: Response<AuthUserI | FailedQueryI>
+  req: Request<{}, {}, SignupUserT>,
+  res: Response<AuthUserT | FailedQueryT>
 ) => {
   const formData = req.body;
 
   try {
     const userData = await authService.register(formData);
 
-    if ('id' in userData && 'username' in userData) {
-      (req.session as SessionUserI).user = {
-        id: userData.id,
-        username: userData.username
-      };
+    if ('user' in userData && userData.user) {
+      (req.session as SessionUserT).user = userData;
+
+      res.status(200).json(userData);
+    } else {
+      res.status(422).json(userData);
     }
 
-    res.status(200).json(userData);
   } catch (err) {
     if (err instanceof Error) {
       console.log(err.message)

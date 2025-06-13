@@ -1,4 +1,4 @@
-export interface AuthUserI {
+export interface NewUserT {
   id: string;
   username: string;
 }
