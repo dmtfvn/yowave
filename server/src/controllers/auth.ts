@@ -1,16 +1,15 @@
 import { Router } from 'express';
 import { Request, Response } from 'express-serve-static-core';
-import { ValidationError } from 'yup';
 
 import { LoginUserT } from '../interfaces/request/LoginUserT';
 import { SignupUserT } from '../interfaces/request/SignupUserT';
 
 import { AuthUserT } from '../interfaces/response/AuthUserT';
-import { AuthErrorT } from '../interfaces/response/AuthErrorT';
 import { FailedQueryT } from '../interfaces/response/FailedQueryT';
 import { SessionUserT } from '../interfaces/session/SessionUserT';
 
 import authService from '../services/authService';
+import authErrorHandler from '../utils/authErrorHandler';
 
 const authController = Router();
 
@@ -27,18 +26,9 @@ authController.post('/login', async (
 
     res.status(200).json(userData);
   } catch (err: unknown) {
-    if (err instanceof Error && 'errorData' in err) {
-      const authError = err as AuthErrorT;
-      res.status(401).json(authError.errorData);
-    } else if (err instanceof Error) {
-      console.log(err.message)
-    } else if (err instanceof ValidationError) {
-      console.log(err.errors)
-    } else {
-      console.log('Unknown error')
-    }
+    const { code, body } = authErrorHandler(err, 401);
 
-    res.status(422).send();
+    res.status(code).json(body);
   }
 });
 
@@ -55,18 +45,9 @@ authController.post('/register', async (
 
     res.status(200).json(userData);
   } catch (err) {
-    if (err instanceof Error && 'errorData' in err) {
-      const authError = err as AuthErrorT;
-      res.status(409).json(authError.errorData);
-    } else if (err instanceof Error) {
-      console.log(err.message)
-    } else if (err instanceof ValidationError) {
-      console.log(err.errors)
-    } else {
-      console.log('Unknown error')
-    }
+    const { code, body } = authErrorHandler(err, 409);
 
-    res.status(422).send();
+    res.status(code).json(body);
   }
 });
 

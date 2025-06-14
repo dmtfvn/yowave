@@ -10,7 +10,7 @@ import { UserDataT } from '../interfaces/user/UserDataT';
 import { NewUserT } from '../interfaces/user/NewUserT';
 
 import pool from '../config/db';
-import customAuthError from '../utils/customAuthError';
+import authErrorExtender from '../utils/authErrorExtender';
 
 async function login(formData: LoginFormValues): Promise<AuthUserT> {
   const user: LoginFormValues = await loginSchema.validate(formData, {
@@ -25,14 +25,14 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
 
   const result: QueryResult<AllUserDataT> = await pool.query(existingDataQuery, existingDataValues);
   if (!result.rowCount) {
-    const err = customAuthError();
+    const err = authErrorExtender();
 
     throw err;
   }
 
   const passMatch = await bcrypt.compare(user.password, result.rows[0].passhash);
   if (!passMatch) {
-    const err = customAuthError();
+    const err = authErrorExtender();
 
     throw err;
   }
@@ -61,7 +61,7 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
   if (result.rowCount) {
     const data = result.rows[0].username === user.username ? 'Username' : 'Email';
 
-    const err = customAuthError(data);
+    const err = authErrorExtender(data);
 
     throw err;
   }
