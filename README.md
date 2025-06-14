@@ -35,7 +35,7 @@ YOWAVE is a simple chat application.
 <br>
 
 **Database:**
->*PostgreSQL 17*
+>*PostgreSQL*
 
 <br>
 

@@ -1,10 +1,10 @@
 import { RequestT } from '../interfaces/request/RequestT';
 import { RequestOptionsT } from '../interfaces/request/RequestOptionsT';
-import { RequestErrorT } from '../interfaces/request/RequestErrorT';
 
 import { UserDataT } from '../interfaces/user/UserDataT';
+import { ErrorDataT } from '../interfaces/response/ErrorDataT';
 
-async function request({ method, url, data }: RequestT): Promise<UserDataT | undefined> {
+async function request({ method, url, data }: RequestT): Promise<UserDataT | ErrorDataT> {
   const options: RequestOptionsT = {
     method,
     credentials: 'include',
@@ -20,16 +20,18 @@ async function request({ method, url, data }: RequestT): Promise<UserDataT | und
     const res = await fetch(url, options);
 
     if (!res.ok) {
-      const err: RequestErrorT = await res.json();
+      const resError: ErrorDataT = await res.json();
 
-      throw new Error(err.message);
+      return resError;
     }
 
-    if (res.status !== 204) {
-      const data: UserDataT = await res.json();
-
-      return data;
+    if (res.status === 204) {
+      return { loggedIn: false, status: 'No content available' };
     }
+
+    const data: UserDataT = await res.json();
+
+    return data;
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.log(err.message);

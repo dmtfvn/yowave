@@ -28,8 +28,8 @@ export const useLogin = () => {
         password: userData.password.toString(),
       });
 
-      if (authData === undefined) {
-        throw new Error('No user data');
+      if ('status' in authData) {
+        throw new Error(authData.status);
       }
 
       console.log('login', authData)
@@ -71,11 +71,11 @@ export const useRegister = () => {
         password: yupData.password,
       });
 
-      if (authData === undefined) {
-        throw new Error('Registration failed');
+      if ('status' in authData) {
+        throw new Error(authData.status);
       }
 
-      console.log(authData)
+      console.log('register', authData)
       userLogin(authData);
     } catch (err: unknown) {
       if (err instanceof Error) {
