@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Request, Response } from 'express-serve-static-core';
+import 'dotenv/config';
 
 import { LoginUserT } from '../interfaces/request/LoginUserT';
 import { SignupUserT } from '../interfaces/request/SignupUserT';
@@ -49,6 +50,24 @@ authController.post('/register', async (
 
     res.status(code).json(body);
   }
+});
+
+authController.get('/logout', (
+  req: Request,
+  res: Response
+) => {
+  const cookieName = process.env.AUTH_COOKIE;
+
+  if (cookieName) {
+    res.clearCookie(cookieName, {
+      path: '/',
+      secure: process.env.ENVIRONMENT === 'production',
+      httpOnly: true,
+      sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
+    });
+  }
+
+  res.status(204).send();
 });
 
 export default authController;

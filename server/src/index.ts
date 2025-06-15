@@ -15,7 +15,7 @@ const port: number = 3000;
 const httpServer = createServer(app);
 
 const corsOptions = {
-  origin: 'http://localhost:5173',//.env
+  origin: process.env.CLIENT_URL as string,
   credentials: true,
 };
 
@@ -28,7 +28,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(session({
   secret: process.env.COOKIE_SECRET as string,
-  name: 'sid',
+  name: process.env.AUTH_COOKIE as string,
   resave: false,
   saveUninitialized: false,
   cookie: {
