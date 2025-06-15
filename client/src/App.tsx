@@ -4,8 +4,12 @@ import UserProvider from './componens/provider/UserProvider';
 
 import Header from './componens/header/Header';
 
+import Auth from './componens/guards/Auth';
+import Guest from './componens/guards/Guest';
+
 import Login from './componens/login/Login';
 import SignUp from './componens/signup/SignUp';
+import Logout from './componens/logout/Logout';
 
 import Home from './componens/home/Home';
 
@@ -19,9 +23,16 @@ function App() {
 
         <main className="flex-center grow w-full">
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/home" element={<Home />} />
+            <Route element={<Auth />}>
+              <Route path="/home" element={<Home />} />
+
+              <Route path="/auth/logout" element={<Logout />} />
+            </Route>
+
+            <Route element={<Guest />}>
+              <Route path="/auth/login" element={<Login />} />
+              <Route path="/auth/signup" element={<SignUp />} />
+            </Route>
           </Routes>
         </main>
       </div>

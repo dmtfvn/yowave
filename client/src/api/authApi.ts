@@ -1,4 +1,4 @@
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 
 import request from '../utils/request.js';
 import { baseUrl } from '../utils/consts.js';
@@ -92,5 +92,25 @@ export const useRegister = () => {
     errors,
     isPending,
     registerAction,
+  };
+}
+
+export const useLogout = () => {
+  const { loggedIn, userLogout } = useUserContext();
+
+  useEffect(() => {
+    if (!loggedIn) {
+      return;
+    }
+
+    try {
+      request.get(`${url}/logout`)
+    } finally {
+      userLogout();
+    }
+  }, [loggedIn, userLogout]);
+
+  return {
+    loggedIn,
   };
 }
