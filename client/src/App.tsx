@@ -9,7 +9,6 @@ import Guest from './componens/guards/Guest';
 
 import Login from './componens/login/Login';
 import SignUp from './componens/signup/SignUp';
-import Logout from './componens/logout/Logout';
 
 import Home from './componens/home/Home';
 
@@ -25,8 +24,6 @@ function App() {
           <Routes>
             <Route element={<Auth />}>
               <Route path="/home" element={<Home />} />
-
-              <Route path="/auth/logout" element={<Logout />} />
             </Route>
 
             <Route element={<Guest />}>
