@@ -28,6 +28,8 @@ YOWAVE is a simple chat application.
 
 >*express-session*
 
+>*Redis*
+
 >*bcrypt*
 
 >*Yup*

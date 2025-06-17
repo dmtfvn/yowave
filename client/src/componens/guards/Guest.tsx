@@ -6,7 +6,7 @@ export default function Guest() {
   const { loggedIn } = useUserContext();
 
   if (loggedIn) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/account/user" />;
   }
 
   return <Outlet />;

@@ -23,7 +23,7 @@ function App() {
         <main className="flex-center grow w-full">
           <Routes>
             <Route element={<Auth />}>
-              <Route path="/home" element={<Home />} />
+              <Route path="/account/user" element={<Home />} />
             </Route>
 
             <Route element={<Guest />}>

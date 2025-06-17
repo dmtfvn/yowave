@@ -50,7 +50,7 @@ export default function Login() {
 
       <p className="mt-10 text-center text-sm/6 text-gray-500">
         Don&rsquo;t have an account?{' '}
-        <Link to="/signup" className="font-semibold text-teal-600">
+        <Link to="/auth/signup" className="font-semibold text-teal-600">
           Sign Up here
         </Link>
       </p>

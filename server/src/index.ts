@@ -5,6 +5,8 @@ import { Server } from 'socket.io';
 import helmet from 'helmet';
 import cors from 'cors';
 import session from 'express-session';
+import { createClient } from 'redis';
+import { RedisStore } from 'connect-redis';
 
 import 'dotenv/config';
 
@@ -23,10 +25,25 @@ const io = new Server(httpServer, {
   cors: corsOptions,
 });
 
+const redisClient = createClient({
+  url: process.env.REDIS_URL,
+});
+
+redisClient.on('error', (err) => {
+  console.log('Redis Client Error:', err);
+});
+
+redisClient.connect();
+
+const redisStore = new RedisStore({
+  client: redisClient,
+});
+
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(session({
+  store: redisStore,
   secret: process.env.COOKIE_SECRET as string,
   name: process.env.AUTH_COOKIE as string,
   resave: false,
