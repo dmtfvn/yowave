@@ -9,6 +9,7 @@ import { AuthUserT } from '../interfaces/response/AuthUserT';
 import { FailedQueryT } from '../interfaces/response/FailedQueryT';
 import { SessionUserT } from '../interfaces/session/SessionUserT';
 
+import { accessControl } from '../middlewares/rateLimit';
 import { validateLogin, validateSignup } from '../middlewares/authMiddleware';
 
 import authService from '../services/authService';
@@ -16,7 +17,7 @@ import authErrorHandler from '../utils/authErrorHandler';
 
 const authController = Router();
 
-authController.post('/login', validateLogin, async (
+authController.post('/login', accessControl(10), validateLogin, async (
   req: RequestLoginT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {
@@ -35,7 +36,7 @@ authController.post('/login', validateLogin, async (
   }
 });
 
-authController.post('/register', validateSignup, async (
+authController.post('/register', accessControl(2), validateSignup, async (
   req: RequestSignupT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {

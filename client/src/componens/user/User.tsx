@@ -1,6 +1,6 @@
 import { useLogout } from '../../api/authApi';
 
-export default function Home() {
+export default function User() {
   const { logoutHandler } = useLogout();
 
   return (

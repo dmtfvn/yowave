@@ -10,7 +10,7 @@ import Guest from './componens/guards/Guest';
 import Login from './componens/login/Login';
 import SignUp from './componens/signup/SignUp';
 
-import Home from './componens/home/Home';
+import User from './componens/user/User';
 
 import './App.css';
 
@@ -23,7 +23,7 @@ function App() {
         <main className="flex-center grow w-full">
           <Routes>
             <Route element={<Auth />}>
-              <Route path="/account/user" element={<Home />} />
+              <Route path="/account/user" element={<User />} />
             </Route>
 
             <Route element={<Guest />}>
