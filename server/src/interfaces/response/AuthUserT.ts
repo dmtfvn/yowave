@@ -3,5 +3,5 @@ export interface AuthUserT {
   user: {
     id: string;
     username: string;
-  }
+  };
 }

@@ -1,8 +1,8 @@
 import { QueryResult } from 'pg';
 import bcrypt from 'bcrypt';
 
-import { LoginFormValues, loginSchema } from '../schemas/loginSchema';
-import { SignupFormValues, signupSchema } from '../schemas/signupSchema';
+import { LoginFormValues } from '../schemas/loginSchema';
+import { SignupFormValues } from '../schemas/signupSchema';
 
 import { AuthUserT } from '../interfaces/response/AuthUserT';
 import { AllUserDataT } from '../interfaces/user/AllUserDataT';
@@ -13,15 +13,11 @@ import pool from '../config/db';
 import authErrorExtender from '../utils/authErrorExtender';
 
 async function login(formData: LoginFormValues): Promise<AuthUserT> {
-  const user: LoginFormValues = await loginSchema.validate(formData, {
-    abortEarly: false,
-  });
-
   const existingDataQuery = `
     SELECT * FROM users u
     WHERE u.email=$1
   `;
-  const existingDataValues = [user.email];
+  const existingDataValues = [formData.email];
 
   const result: QueryResult<AllUserDataT> = await pool.query(existingDataQuery, existingDataValues);
   if (!result.rowCount) {
@@ -30,7 +26,7 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
     throw err;
   }
 
-  const passMatch = await bcrypt.compare(user.password, result.rows[0].passhash);
+  const passMatch = await bcrypt.compare(formData.password, result.rows[0].passhash);
   if (!passMatch) {
     const err = authErrorExtender();
 
@@ -47,33 +43,29 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
 }
 
 async function register(formData: SignupFormValues): Promise<AuthUserT> {
-  const user: SignupFormValues = await signupSchema.validate(formData, {
-    abortEarly: false,
-  });
-
   const existingDataQuery = `
     SELECT username, email FROM users 
     WHERE username=$1 OR email=$2
   `;
-  const existingDataValues = [user.username, user.email];
+  const existingDataValues = [formData.username, formData.email];
 
   const result: QueryResult<UserDataT> = await pool.query(existingDataQuery, existingDataValues);
   if (result.rowCount) {
-    const data = result.rows[0].username === user.username ? 'Username' : 'Email';
+    const data = result.rows[0].username === formData.username ? 'Username' : 'Email';
 
     const err = authErrorExtender(data);
 
     throw err;
   }
 
-  const hashedPass = await bcrypt.hash(user.password, 10);
+  const hashedPass = await bcrypt.hash(formData.password, 10);
 
   const userQuery = `
     INSERT INTO users(username, email, passhash)
     VALUES ($1,$2,$3)
     RETURNING id, username
   `;
-  const userValues = [user.username, user.email, hashedPass];
+  const userValues = [formData.username, formData.email, hashedPass];
 
   const NewUser: QueryResult<NewUserT> = await pool.query(userQuery, userValues);
 

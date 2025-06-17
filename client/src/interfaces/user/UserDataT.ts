@@ -3,5 +3,5 @@ export interface UserDataT {
   user: {
     id: string;
     username: string;
-  }
+  };
 }

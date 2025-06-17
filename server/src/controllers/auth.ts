@@ -2,23 +2,25 @@ import { Router } from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import 'dotenv/config';
 
-import { LoginUserT } from '../interfaces/request/LoginUserT';
-import { SignupUserT } from '../interfaces/request/SignupUserT';
+import { RequestLoginT } from '../interfaces/request/RequestLoginT';
+import { RequestSignupT } from '../interfaces/request/RequestSignupT';
 
 import { AuthUserT } from '../interfaces/response/AuthUserT';
 import { FailedQueryT } from '../interfaces/response/FailedQueryT';
 import { SessionUserT } from '../interfaces/session/SessionUserT';
+
+import { validateLogin, validateSignup } from '../middlewares/authMiddleware';
 
 import authService from '../services/authService';
 import authErrorHandler from '../utils/authErrorHandler';
 
 const authController = Router();
 
-authController.post('/login', async (
-  req: Request<{}, {}, LoginUserT>,
+authController.post('/login', validateLogin, async (
+  req: RequestLoginT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {
-  const formData = req.body;
+  const formData = req.user;
 
   try {
     const userData = await authService.login(formData);
@@ -33,11 +35,11 @@ authController.post('/login', async (
   }
 });
 
-authController.post('/register', async (
-  req: Request<{}, {}, SignupUserT>,
+authController.post('/register', validateSignup, async (
+  req: RequestSignupT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {
-  const formData = req.body;
+  const formData = req.user;
 
   try {
     const userData = await authService.register(formData);
