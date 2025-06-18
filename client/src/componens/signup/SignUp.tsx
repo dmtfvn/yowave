@@ -25,8 +25,8 @@ export default function SignUp() {
   }
 
   return (
-    <section className="flex max-w-[17.5em] flex-1 flex-col justify-center py-12">
-      <h1 className="mb-10 text-center text-2xl/9 font-bold text-sky-800">
+    <section className="auth-form-style">
+      <h1 className="auth-form-h1-style">
         Create a new account
       </h1>
 
@@ -110,9 +110,9 @@ export default function SignUp() {
         />
       </form>
 
-      <p className="mt-10 text-center text-sm/6 text-gray-500">
+      <p className="auth-form-p-style">
         Already have an account?{' '}
-        <Link to="/auth/login" className="font-semibold text-sky-600">
+        <Link to="/auth/login" className="auth-form-link-style">
           Log In
         </Link>
       </p>

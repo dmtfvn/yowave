@@ -6,7 +6,7 @@ export default function Auth() {
   const { loggedIn } = useUserContext();
 
   if (!loggedIn) {
-    return <Navigate to="/auth/login" />;
+    return <Navigate to="/" />;
   }
 
   return <Outlet />;

@@ -2,28 +2,35 @@ import { Routes, Route } from 'react-router';
 
 import UserProvider from './componens/provider/UserProvider';
 
-import Header from './componens/header/Header';
-
 import Auth from './componens/guards/Auth';
 import Guest from './componens/guards/Guest';
+
+import Splash from './componens/splash/Splash ';
 
 import Login from './componens/login/Login';
 import SignUp from './componens/signup/SignUp';
 
-import User from './componens/user/User';
+import Account from './componens/account/Account';
+import Chat from './componens/account/Chat';
+import Contacts from './componens/account/Contacts';
+import Options from './componens/account/Options';
 
 import './App.css';
 
 function App() {
   return (
     <UserProvider>
-      <div className="min-h-screen flex-center flex-col px-5">
-        <Header />
-
-        <main className="flex-center grow w-full">
+      <div className="min-h-screen flex-center px-2">
+        <main className="flex-center w-full">
           <Routes>
+            <Route path="/" element={<Splash />} />
+
             <Route element={<Auth />}>
-              <Route path="/account/user" element={<User />} />
+              <Route path="/account" element={<Account />}>
+                <Route path="chat" element={<Chat />} />
+                <Route path="contacts" element={<Contacts />} />
+                <Route path="options" element={<Options />} />
+              </Route>
             </Route>
 
             <Route element={<Guest />}>
