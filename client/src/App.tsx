@@ -20,26 +20,24 @@ import './App.css';
 function App() {
   return (
     <UserProvider>
-      <div className="min-h-screen flex-center px-2">
-        <main className="flex-center w-full">
-          <Routes>
-            <Route path="/" element={<Splash />} />
+      <main className="flex-center min-h-screen px-2">
+        <Routes>
+          <Route path="/" element={<Splash />} />
 
-            <Route element={<Auth />}>
-              <Route path="/account" element={<Account />}>
-                <Route path="chat" element={<Chat />} />
-                <Route path="contacts" element={<Contacts />} />
-                <Route path="options" element={<Options />} />
-              </Route>
+          <Route element={<Auth />}>
+            <Route path="/account" element={<Account />}>
+              <Route path="chat" element={<Chat />} />
+              <Route path="contacts" element={<Contacts />} />
+              <Route path="options" element={<Options />} />
             </Route>
+          </Route>
 
-            <Route element={<Guest />}>
-              <Route path="/auth/login" element={<Login />} />
-              <Route path="/auth/signup" element={<SignUp />} />
-            </Route>
-          </Routes>
-        </main>
-      </div>
+          <Route element={<Guest />}>
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<SignUp />} />
+          </Route>
+        </Routes>
+      </main>
     </UserProvider>
   );
 }

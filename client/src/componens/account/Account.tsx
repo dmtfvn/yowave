@@ -1,67 +1,96 @@
-import { Link, Outlet } from 'react-router';
+import { useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router';
 import {
   ArrowRightStartOnRectangleIcon,
   ChatBubbleLeftIcon,
   Cog6ToothIcon,
   UsersIcon
-} from '@heroicons/react/24/solid';
+} from '@heroicons/react/24/outline';
 
+import { FriendsContext } from '../contexts/FriendsContext';
+import { FriendT } from '../../interfaces/friend/FriendT';
 import { useLogout } from '../../api/authApi';
 
 export default function Account() {
+  const [friendList, setFriendList] = useState<FriendT[]>([
+    {
+      username: 'Rick',
+      connected: true,
+    },
+    {
+      username: 'John',
+      connected: false,
+    },
+    {
+      username: 'Morty',
+      connected: true,
+    },
+  ]);
+
+  const location = useLocation();
+  const path = location.pathname;
+
+  const navTab = (currentPath: string) => {
+    const result = (path === currentPath) ? 'text-stone-600' : 'text-black/60';
+
+    return result;
+  }
+
   const { logoutHandler } = useLogout();
 
   return (
-    <section className="flex-center flex-col min-h-screen w-full">
-      <div className="flex grow">
-        <Outlet />
-      </div>
+    <FriendsContext.Provider value={{ friendList, setFriendList }}>
+      <section className="flex-center flex-col min-h-screen w-full">
+        <div className="flex justify-center grow w-full mt-8">
+          <Outlet />
+        </div>
 
-      <nav className="flex justify-center w-full py-2">
-        <Link
-          to="/account/chat"
-          className="icon-wrapper-style"
-        >
-          <ChatBubbleLeftIcon className="icon-style" />
+        <nav className="flex justify-center fixed bottom-0 right-0 left-0 bg-stone-900 border-t-2 border-black/35">
+          <Link
+            to="/account/chat"
+            className="icon-wrapper-style"
+          >
+            <ChatBubbleLeftIcon className={`icon-style ${navTab('/account/chat')}`} />
 
-          <p className="responsive-p-style">
-            Chat
-          </p>
-        </Link>
+            <p className="responsive-p-style">
+              Chat
+            </p>
+          </Link>
 
-        <Link
-          to="/account/contacts"
-          className="icon-wrapper-style"
-        >
-          <UsersIcon className="icon-style" />
+          <Link
+            to="/account/contacts"
+            className="icon-wrapper-style"
+          >
+            <UsersIcon className={`icon-style ${navTab('/account/contacts')}`} />
 
-          <p className="responsive-p-style">
-            Contacts
-          </p>
-        </Link>
+            <p className="responsive-p-style">
+              Contacts
+            </p>
+          </Link>
 
-        <Link
-          to="/account/options"
-          className="icon-wrapper-style"
-        >
-          <Cog6ToothIcon className="icon-style" />
+          <Link
+            to="/account/options"
+            className="icon-wrapper-style"
+          >
+            <Cog6ToothIcon className={`icon-style ${navTab('/account/options')}`} />
 
-          <p className="responsive-p-style">
-            Options
-          </p>
-        </Link>
+            <p className="responsive-p-style">
+              Options
+            </p>
+          </Link>
 
-        <button
-          onClick={logoutHandler}
-          className="icon-wrapper-style cursor-pointer"
-        >
-          <ArrowRightStartOnRectangleIcon className="icon-style" />
+          <button
+            onClick={logoutHandler}
+            className="icon-wrapper-style cursor-pointer"
+          >
+            <ArrowRightStartOnRectangleIcon className="icon-style" />
 
-          <p className="responsive-p-style">
-            Logout
-          </p>
-        </button>
-      </nav>
-    </section>
+            <p className="responsive-p-style">
+              Logout
+            </p>
+          </button>
+        </nav>
+      </section>
+    </FriendsContext.Provider>
   );
 }

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
 
 @import 'tailwindcss';
 
@@ -10,6 +11,7 @@
   --color-blk-ish: hsl(0, 0%, 9%);
 
   --font-roboto: 'Roboto', 'Arial', sans-serif;
+  --font-palanquin: 'Palanquin', 'Arial', sans-serif;
 }
 
 @layer base {
@@ -22,16 +24,20 @@
   @apply flex justify-center items-center;
 }
 
-@utility label-style {
-  @apply text-sm/6 font-medium text-stone-700;
+@utility main-input-style {
+  @apply bg-black/20 w-full rounded-md px-3 py-1.5 text-base text-[var(--color-yt-ish)] outline-1 -outline-offset-1 outline-stone-800 placeholder:text-gray-700 focus:outline-2 focus:-outline-offset-2 focus:outline-stone-800;
+}
+
+@utility icon-wrapper-style {
+  @apply flex-center flex-col max-w-20.5 w-full p-2 hover:bg-stone-800;
 }
 
 @utility icon-style {
   @apply size-6 w-8;
 }
 
-@utility icon-wrapper-style {
-  @apply flex-center flex-col max-w-20.5 w-full p-2 hover:bg-stone-800;
+@utility label-style {
+  @apply text-sm/6 font-medium text-stone-700;
 }
 
 @utility auth-form-style {
@@ -52,6 +58,10 @@
 
 @utility responsive-p-style {
   @apply text-[min(5vw,1rem)];
+}
+
+@utility contact-username-style {
+  @apply font-palanquin text-2xl text-stone-600 truncate overflow-hidden ml-2;
 }
 
 @utility error-msg {
