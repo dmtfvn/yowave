@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 import { baseUrl } from '../../utils/consts';
 

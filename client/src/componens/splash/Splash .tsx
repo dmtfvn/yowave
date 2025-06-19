@@ -6,7 +6,7 @@ export default function Splash() {
       to="/auth/login"
       className="flex max-w-[15em] h-auto"
     >
-      <img src="/logo.png" alt="yowave-logo" />
+      <img src="/logo.png" alt="yowave logo" />
     </Link>
   );
 }
