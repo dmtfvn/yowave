@@ -2,14 +2,14 @@ import { Router } from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import 'dotenv/config';
 
-import { RequestLoginT } from '../interfaces/request/RequestLoginT';
-import { RequestSignupT } from '../interfaces/request/RequestSignupT';
+import { RequestLoginT } from '../types/request/RequestLoginT';
+import { RequestSignupT } from '../types/request/RequestSignupT';
 
-import { AuthUserT } from '../interfaces/response/AuthUserT';
-import { FailedQueryT } from '../interfaces/response/FailedQueryT';
-import { SessionUserT } from '../interfaces/session/SessionUserT';
+import { AuthUserT } from '../types/response/AuthUserT';
+import { FailedQueryT } from '../types/response/FailedQueryT';
+import { SessionUserT } from '../types/session/SessionUserT';
 
-import { accessControl } from '../middlewares/rateLimit';
+import { authRateLimit } from '../middlewares/authRateLimitMiddleware';
 import { validateLogin, validateSignup } from '../middlewares/authMiddleware';
 
 import authService from '../services/authService';
@@ -17,7 +17,7 @@ import authErrorHandler from '../utils/authErrorHandler';
 
 const authController = Router();
 
-authController.post('/login', accessControl(10), validateLogin, async (
+authController.post('/login', authRateLimit(10), validateLogin, async (
   req: RequestLoginT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {
@@ -36,7 +36,7 @@ authController.post('/login', accessControl(10), validateLogin, async (
   }
 });
 
-authController.post('/register', accessControl(2), validateSignup, async (
+authController.post('/register', authRateLimit(2), validateSignup, async (
   req: RequestSignupT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {
@@ -64,13 +64,13 @@ authController.get('/logout', (
   if (cookieName) {
     res.clearCookie(cookieName, {
       path: '/',
-      secure: process.env.ENVIRONMENT === 'production',
+      secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
-      sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     });
   }
 
-  res.status(204).send();
+  res.status(200).json({ message: 'Successful logout' });
 });
 
 export default authController;

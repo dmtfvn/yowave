@@ -1,4 +1,4 @@
-export interface FailedQueryT {
+export type FailedQueryT = {
   loggedIn: boolean;
   status: string;
-}
+};

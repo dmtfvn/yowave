@@ -1,6 +1,6 @@
 import { Response } from 'express-serve-static-core';
 
-export interface ResponseValidationT extends Response {
+export type ResponseValidationT = Response & {
   message: string;
   errors: string[];
-}
+};

@@ -1,5 +1,5 @@
 import { AuthUserT } from '../response/AuthUserT';
 
-export interface SessionUserT {
+export type SessionUserT = {
   user?: AuthUserT;
-}
+};

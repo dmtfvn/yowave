@@ -1,5 +1,5 @@
 import { FailedQueryT } from './FailedQueryT';
 
-export interface AuthErrorT extends Error {
+export type AuthErrorT = Error & {
   errorData: FailedQueryT;
-}
+};

@@ -1,8 +1,9 @@
 import { Request } from 'express-serve-static-core';
 
-export interface RequestLoginT extends Request {
+export type RequestSignupT = Request & {
   user: {
+    username: string;
     email: string;
     password: string;
   };
-}
+};

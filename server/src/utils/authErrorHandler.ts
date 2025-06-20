@@ -1,8 +1,8 @@
 import { ValidationError } from 'yup';
 
-import { AuthErrorT } from '../interfaces/response/AuthErrorT';
-import { FailedQueryT } from '../interfaces/response/FailedQueryT';
-import { ResponseErrorT } from '../interfaces/response/ResponseErrorT';
+import { AuthErrorT } from '../types/response/AuthErrorT';
+import { FailedQueryT } from '../types/response/FailedQueryT';
+import { ResponseErrorT } from '../types/response/ResponseErrorT';
 
 export default function authErrorHandler(
   err: unknown,

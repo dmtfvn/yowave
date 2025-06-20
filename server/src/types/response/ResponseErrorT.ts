@@ -1,6 +1,6 @@
 import { FailedQueryT } from './FailedQueryT';
 
-export interface ResponseErrorT {
+export type ResponseErrorT = {
   code: number;
   body: FailedQueryT;
-}
+};

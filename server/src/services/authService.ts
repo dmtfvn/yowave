@@ -4,10 +4,10 @@ import bcrypt from 'bcrypt';
 import { LoginFormValues } from '../schemas/loginSchema';
 import { SignupFormValues } from '../schemas/signupSchema';
 
-import { AuthUserT } from '../interfaces/response/AuthUserT';
-import { AllUserDataT } from '../interfaces/user/AllUserDataT';
-import { UserDataT } from '../interfaces/user/UserDataT';
-import { NewUserT } from '../interfaces/user/NewUserT';
+import { AuthUserT } from '../types/response/AuthUserT';
+import { AllUserDataT } from '../types/user/AllUserDataT';
+import { UserDataT } from '../types/user/UserDataT';
+import { NewUserT } from '../types/user/NewUserT';
 
 import pool from '../config/db';
 import authErrorExtender from '../utils/authErrorExtender';
@@ -35,7 +35,7 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
 
   return {
     loggedIn: true,
-    user: {
+    userData: {
       id: result.rows[0].id,
       username: result.rows[0].username,
     }
@@ -71,7 +71,7 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
 
   return {
     loggedIn: true,
-    user: {
+    userData: {
       id: NewUser.rows[0].id,
       username: NewUser.rows[0].username,
     }

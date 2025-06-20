@@ -1,7 +1,7 @@
-export interface AuthUserT {
+export type AuthUserT = {
   loggedIn: boolean;
-  user: {
+  userData: {
     id: string;
     username: string;
   };
-}
+};
