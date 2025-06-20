@@ -1,4 +1,4 @@
-import { FriendT } from '../../interfaces/friend/FriendT';
+import { FriendT } from '../../types/friend/FriendT';
 
 export default function Friend({
   username,

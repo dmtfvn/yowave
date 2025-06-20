@@ -34,10 +34,10 @@ export default function Contacts() {
   }
 
   return (
-    <section className="max-w-[20.5em] w-full">
+    <section className="max-w-[20.5em] w-full mt-16">
       <form action={contactHandler} className="flex flex-col gap-4">
         <h1 className="text-2xl/6 font-palanquin text-center text-stone-700">
-          Add a contact
+          Add contact
         </h1>
 
         {errors &&
@@ -56,18 +56,24 @@ export default function Contacts() {
         </div>
       </form>
 
-      <div className="mt-16">
+      <div className="mt-20">
         <h2 className="text-xl/6 font-palanquin text-center text-stone-700 mb-2">
-          Contact list
+          Contact List
         </h2>
 
-        <section className="flex flex-col rounded-lg border border-stone-800 px-2 divide-y">
+        <section className="relative flex flex-col min-h-[3.55em] rounded-lg border border-stone-800 px-2 divide-y">
           {friendList.map(f => (
             <Friend
               // key={}
               {...f}
             />
           ))}
+
+          {!friendList.length &&
+            <div className="absolute flex-center inset-2">
+              <p className="text-md font-bold txt-shadow">Your list is empty</p>
+            </div>
+          }
         </section>
       </div>
     </section>

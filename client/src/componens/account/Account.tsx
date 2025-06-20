@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router';
 import {
   ArrowRightStartOnRectangleIcon,
@@ -7,26 +6,11 @@ import {
   UsersIcon
 } from '@heroicons/react/24/outline';
 
-import { FriendsContext } from '../contexts/FriendsContext';
-import { FriendT } from '../../interfaces/friend/FriendT';
+import FriendsProvider from '../providers/FriendsProvider';
+
 import { useLogout } from '../../api/authApi';
 
 export default function Account() {
-  const [friendList, setFriendList] = useState<FriendT[]>([
-    {
-      username: 'Rick',
-      connected: true,
-    },
-    {
-      username: 'John',
-      connected: false,
-    },
-    {
-      username: 'Morty',
-      connected: true,
-    },
-  ]);
-
   const location = useLocation();
   const path = location.pathname;
 
@@ -39,9 +23,9 @@ export default function Account() {
   const { logoutHandler } = useLogout();
 
   return (
-    <FriendsContext.Provider value={{ friendList, setFriendList }}>
+    <FriendsProvider>
       <section className="flex-center flex-col min-h-screen w-full">
-        <div className="flex justify-center grow w-full mt-8">
+        <div className="flex justify-center grow w-full">
           <Outlet />
         </div>
 
@@ -91,6 +75,6 @@ export default function Account() {
           </button>
         </nav>
       </section>
-    </FriendsContext.Provider>
+    </FriendsProvider>
   );
 }

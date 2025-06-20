@@ -1,4 +1,4 @@
-import { SubmitButtonT } from '../../../interfaces/buttons/SubmitButtonT';
+import { SubmitButtonT } from '../../../types/buttons/SubmitButtonT';
 
 export default function SubmitButton({
   pending,

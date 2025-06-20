@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router';
 
-import UserProvider from './componens/provider/UserProvider';
+import UserProvider from './componens/providers/UserProvider';
 
 import Auth from './componens/guards/Auth';
 import Guest from './componens/guards/Guest';

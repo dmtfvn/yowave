@@ -1,4 +1,4 @@
-import { AuthInputUnctrlT } from '../../../interfaces/inputs/AuthInputUnctrlT';
+import { AuthInputUnctrlT } from '../../../types/inputs/AuthInputUnctrlT';
 
 export default function AuthInputUnctrl({
   label,

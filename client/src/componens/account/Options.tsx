@@ -1,5 +1,7 @@
 export default function Options() {
   return (
-    <h1>Options view</h1>
+    <section className="flex-center">
+      <h1>Options View</h1>
+    </section>
   );
 }

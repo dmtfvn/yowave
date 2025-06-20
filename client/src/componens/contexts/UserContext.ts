@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
-import { UserContextT } from '../../interfaces/user/UserContextT';
+import { UserContextT } from '../../types/user/UserContextT';
 
 export const UserContext = createContext<UserContextT>({
   loggedIn: false,
-  user: {
+  userData: {
     id: '',
     username: '',
   },

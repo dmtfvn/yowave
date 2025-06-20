@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { FriendsContextT } from '../../interfaces/friend/FriendsContextT';
+import { FriendsContextT } from '../../types/friend/FriendsContextT';
 
 export const FriendsContext = createContext<FriendsContextT>({
   friendList: [],

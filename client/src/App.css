@@ -64,6 +64,10 @@
   @apply font-palanquin text-2xl text-stone-600 truncate overflow-hidden ml-2;
 }
 
+@utility txt-shadow {
+  @apply text-shadow-xs text-shadow-stone-800;
+}
+
 @utility error-msg {
   @apply text-sm/6 text-red-400;
 }
