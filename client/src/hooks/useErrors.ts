@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { ValidationErrorT } from '../interfaces/validation-error/ValidationErrorT';
-import { ValidationErrorDetailsT } from '../interfaces/validation-error/ValidationErrorDetailsT';
+import { ValidationErrorT } from '../types/validation-error/ValidationErrorT';
+import { ValidationErrorDetailsT } from '../types/validation-error/ValidationErrorDetailsT';
 
 export default function useErrors() {
   const [errors, setErrors] = useState<Record<string, string>>({});

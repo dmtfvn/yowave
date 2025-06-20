@@ -1,6 +1,6 @@
 import { ValidationErrorDetailsT } from './ValidationErrorDetailsT';
 
-export interface ValidationErrorT extends Error {
+export type ValidationErrorT = Error & {
   name: 'ValidationError';
   inner: ValidationErrorDetailsT[];
-}
+};

@@ -1,5 +1,5 @@
-export interface AuthInputUnctrlT {
+export type AuthInputUnctrlT = {
   label: string;
   hint: string;
   error?: string;
-}
+};

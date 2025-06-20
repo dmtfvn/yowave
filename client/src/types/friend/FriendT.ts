@@ -1,4 +1,4 @@
-export interface FriendT {
+export type FriendT = {
   username: string;
   connected: boolean;
-}
+};

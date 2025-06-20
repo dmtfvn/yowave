@@ -1,4 +1,4 @@
-export interface ErrorDataT {
+export type ErrorDataT = {
   loggedIn: boolean;
   status: string;
-}
+};

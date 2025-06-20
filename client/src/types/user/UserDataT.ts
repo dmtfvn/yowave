@@ -1,4 +1,4 @@
-export interface UserT {
+export type UserDataT = {
   id: string;
   username: string;
-}
+};

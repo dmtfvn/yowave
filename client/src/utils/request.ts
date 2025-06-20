@@ -1,10 +1,10 @@
-import { RequestT } from '../interfaces/request/RequestT';
-import { RequestOptionsT } from '../interfaces/request/RequestOptionsT';
+import { RequestT } from '../types/request/RequestT';
+import { RequestOptionsT } from '../types/request/RequestOptionsT';
 
-import { UserDataT } from '../interfaces/user/UserDataT';
-import { ErrorDataT } from '../interfaces/response/ErrorDataT';
+import { UserT } from '../types/user/UserT';
+import { ErrorDataT } from '../types/response/ErrorDataT';
 
-async function request({ method, url, data }: RequestT): Promise<UserDataT | ErrorDataT> {
+async function request({ method, url, data }: RequestT): Promise<UserT | ErrorDataT> {
   const options: RequestOptionsT = {
     method,
     credentials: 'include',
@@ -29,7 +29,7 @@ async function request({ method, url, data }: RequestT): Promise<UserDataT | Err
       return { loggedIn: false, status: 'No content available' };
     }
 
-    const data: UserDataT = await res.json();
+    const data: UserT = await res.json();
 
     return data;
   } catch (err: unknown) {
