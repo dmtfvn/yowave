@@ -4,8 +4,8 @@ import { ObjectSchema, ValidationError } from 'yup';
 import { LoginFormValues, loginSchema } from '../schemas/loginSchema';
 import { SignupFormValues, signupSchema } from '../schemas/signupSchema';
 
-import { RequestValidationT } from '../interfaces/request/RequestValidationT';
-import { ResponseValidationT } from '../interfaces/response/ResponseValidationT';
+import { RequestValidationT } from '../types/request/RequestValidationT';
+import { ResponseValidationT } from '../types/response/ResponseValidationT';
 
 const validateSchema = (schema: ObjectSchema<LoginFormValues | SignupFormValues>) => {
   return async (

@@ -4,21 +4,19 @@ import { Server } from 'socket.io';
 
 import helmet from 'helmet';
 import cors from 'cors';
-import session from 'express-session';
-import { redisStore } from './lib/resid';
+import {
+  corsOptions,
+  expressSession,
+  wrapSession
+} from './middlewares/sessionMiddleware';
 
-import 'dotenv/config';
+import { RequestSessionT } from './types/request/RequestSessionT';
 
 import routes from './routes';
 
 const app = express();
 const port: number = 3000;
 const httpServer = createServer(app);
-
-const corsOptions = {
-  origin: process.env.CLIENT_URL as string,
-  credentials: true,
-};
 
 const io = new Server(httpServer, {
   cors: corsOptions,
@@ -27,22 +25,14 @@ const io = new Server(httpServer, {
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(session({
-  store: redisStore,
-  secret: process.env.COOKIE_SECRET as string,
-  name: process.env.AUTH_COOKIE as string,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.ENVIRONMENT === 'production',
-    httpOnly: true,
-    sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
-  }
-}));
+app.use(expressSession);
 app.use(routes);
 
+io.use(wrapSession(expressSession));
 io.on('connection', (socket) => {
+  const req = socket.request as RequestSessionT;
 
+  console.log(req.session?.userData?.id)
 });
 
 httpServer.listen(port, (): void => {
