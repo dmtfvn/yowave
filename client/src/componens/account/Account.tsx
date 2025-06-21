@@ -8,11 +8,14 @@ import {
 
 import FriendsProvider from '../providers/FriendsProvider';
 
+import useSocketIO from '../../hooks/useSocketIO';
 import { useLogout } from '../../api/authApi';
 
 export default function Account() {
   const location = useLocation();
   const path = location.pathname;
+
+  useSocketIO();
 
   const navTab = (currentPath: string) => {
     const result = (path === currentPath) ? 'text-stone-600' : 'text-black/60';
