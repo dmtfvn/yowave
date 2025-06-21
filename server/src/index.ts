@@ -9,6 +9,7 @@ import {
   expressSession,
   wrapSession
 } from './middlewares/sessionMiddleware';
+import authorizeUser from './middlewares/authUserMiddleware';
 
 import { RequestSessionT } from './types/request/RequestSessionT';
 
@@ -29,10 +30,12 @@ app.use(expressSession);
 app.use(routes);
 
 io.use(wrapSession(expressSession));
+io.use(authorizeUser);
 io.on('connection', (socket) => {
   const req = socket.request as RequestSessionT;
 
-  console.log(req.session?.userData?.id)
+  console.log('Session:', req.session?.user?.userData.username)
+  console.log('Socket id:', socket.id)
 });
 
 httpServer.listen(port, (): void => {
