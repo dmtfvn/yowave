@@ -10,7 +10,7 @@ export default function UserProvider({ children }: ChildrenT) {
   const [user, setUser] = useState<UserT>({
     loggedIn: false,
     userData: {
-      id: '',
+      userid: '',
       username: '',
     }
   });
@@ -22,7 +22,7 @@ export default function UserProvider({ children }: ChildrenT) {
     })
       .then((res) => res.json())
       .then((data: UserT) => {
-        if (data.userData.id) {
+        if (data.userData.userid) {
           setUser(data);
         }
       })
@@ -42,7 +42,7 @@ export default function UserProvider({ children }: ChildrenT) {
     setUser({
       loggedIn: false,
       userData: {
-        id: '',
+        userid: '',
         username: '',
       }
     });

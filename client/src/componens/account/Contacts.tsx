@@ -41,12 +41,12 @@ export default function Contacts() {
         </h1>
 
         {errors &&
-          <p className="error-msg text-center">{errors.contact}</p>
+          <p className="error-msg text-center">{errors.friend}</p>
         }
 
         <div className="w-full">
           <MainInput
-            label="contact"
+            label="friend"
             hint="Type here to add a contact"
           />
 

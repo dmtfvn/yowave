@@ -1,4 +1,4 @@
 export type UserDataT = {
-  id: string;
+  userid: string;
   username: string;
 };

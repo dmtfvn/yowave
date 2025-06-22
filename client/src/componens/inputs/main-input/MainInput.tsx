@@ -1,7 +1,9 @@
+import { MainInputT } from '../../../types/inputs/MainInputT';
+
 export default function MainInput({
   label,
   hint,
-}: Record<string, string>) {
+}: MainInputT) {
   return (
     <input
       type="text"

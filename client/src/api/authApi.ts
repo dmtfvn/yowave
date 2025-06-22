@@ -99,11 +99,9 @@ export const useLogout = () => {
   const { userLogout } = useUserContext();
 
   const logoutHandler = () => {
-    try {
-      request.get(`${url}/logout`)
-    } finally {
-      userLogout();
-    }
+    request.get(`${url}/logout`);
+
+    userLogout();
   }
 
   return {

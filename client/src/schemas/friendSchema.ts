@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const friendSchema = Yup.object({
-  contact: Yup.string()
+  friend: Yup.string()
     .transform((value) => value === '' ? undefined : value)
     .trim()
     .min(2, 'Invalid username')
