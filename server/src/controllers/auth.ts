@@ -36,7 +36,7 @@ authController.post('/login', authRateLimit(10), validateLogin, async (
   }
 });
 
-authController.post('/register', authRateLimit(2), validateSignup, async (
+authController.post('/register', authRateLimit(4), validateSignup, async (
   req: RequestSignupT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {

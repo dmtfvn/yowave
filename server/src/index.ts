@@ -9,9 +9,9 @@ import {
   expressSession,
   wrapSession
 } from './middlewares/sessionMiddleware';
-import authorizeUser from './middlewares/authUserMiddleware';
 
-import { RequestSessionT } from './types/request/RequestSessionT';
+import authorizeUser from './middlewares/socketMiddleware';
+import { AuthorizedUserT } from './types/request/AuthorizedUserT';
 
 import routes from './routes';
 
@@ -32,12 +32,13 @@ app.use(routes);
 io.use(wrapSession(expressSession));
 io.use(authorizeUser);
 io.on('connection', (socket) => {
-  const req = socket.request as RequestSessionT;
+  const req = socket.request as AuthorizedUserT;
 
   console.log('Session:', req.session?.user?.userData.username)
   console.log('Socket id:', socket.id)
+  console.log('Socket userid:', req.user.userData.userid)
 });
 
-httpServer.listen(port, (): void => {
+httpServer.listen(port, () => {
   console.log(`Server is listening on http://localhost:${port}...`);
 });

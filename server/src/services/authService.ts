@@ -1,16 +1,18 @@
 import { QueryResult } from 'pg';
 import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 
 import { LoginFormValues } from '../schemas/loginSchema';
 import { SignupFormValues } from '../schemas/signupSchema';
 
 import { AuthUserT } from '../types/response/AuthUserT';
-import { AllUserDataT } from '../types/user/AllUserDataT';
-import { UserDataT } from '../types/user/UserDataT';
-import { NewUserT } from '../types/user/NewUserT';
+import { AllUserDataQueryT } from '../types/user/AllUserDataQueryT';
 
 import pool from '../config/db';
 import authErrorExtender from '../utils/authErrorExtender';
+import authUserCreator from '../utils/authUserCreator';
+import { UserDataQueryT } from '../types/user/UserDataQueryT';
+import { UserDataT } from '../types/user/UserDataT';
 
 async function login(formData: LoginFormValues): Promise<AuthUserT> {
   const existingDataQuery = `
@@ -19,7 +21,7 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
   `;
   const existingDataValues = [formData.email];
 
-  const result: QueryResult<AllUserDataT> = await pool.query(existingDataQuery, existingDataValues);
+  const result: QueryResult<AllUserDataQueryT> = await pool.query(existingDataQuery, existingDataValues);
   if (!result.rowCount) {
     const err = authErrorExtender();
 
@@ -33,13 +35,7 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
     throw err;
   }
 
-  return {
-    loggedIn: true,
-    userData: {
-      id: result.rows[0].id,
-      username: result.rows[0].username,
-    }
-  };
+  return authUserCreator(result.rows[0]);
 }
 
 async function register(formData: SignupFormValues): Promise<AuthUserT> {
@@ -49,7 +45,7 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
   `;
   const existingDataValues = [formData.username, formData.email];
 
-  const result: QueryResult<UserDataT> = await pool.query(existingDataQuery, existingDataValues);
+  const result: QueryResult<UserDataQueryT> = await pool.query(existingDataQuery, existingDataValues);
   if (result.rowCount) {
     const data = result.rows[0].username === formData.username ? 'Username' : 'Email';
 
@@ -61,21 +57,15 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
   const hashedPass = await bcrypt.hash(formData.password, 10);
 
   const userQuery = `
-    INSERT INTO users(username, email, passhash)
-    VALUES ($1,$2,$3)
-    RETURNING id, username
+    INSERT INTO users(username, email, passhash, userid)
+    VALUES ($1,$2,$3,$4)
+    RETURNING userid, username
   `;
-  const userValues = [formData.username, formData.email, hashedPass];
+  const userValues = [formData.username, formData.email, hashedPass, uuidv4()];
 
-  const NewUser: QueryResult<NewUserT> = await pool.query(userQuery, userValues);
+  const newUser: QueryResult<UserDataT> = await pool.query(userQuery, userValues);
 
-  return {
-    loggedIn: true,
-    userData: {
-      id: NewUser.rows[0].id,
-      username: NewUser.rows[0].username,
-    }
-  };
+  return authUserCreator(newUser.rows[0]);
 }
 
 export default {

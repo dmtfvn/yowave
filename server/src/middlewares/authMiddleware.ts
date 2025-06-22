@@ -21,7 +21,7 @@ const validateSchema = (schema: ObjectSchema<LoginFormValues | SignupFormValues>
       req.user = validatedUser;
 
       next();
-    } catch (err) {
+    } catch (err: unknown) {
       if (err instanceof ValidationError) {
         res.status(400).json({ message: 'Validation failed', errors: err.errors });
       } else if (err instanceof Error) {

@@ -13,7 +13,7 @@ userController.get('/user', async (
   const user = (req.session as SessionUserT).user;
   console.log(user)
 
-  if (user?.userData.id) {
+  if (user?.userData.userid) {
     res.status(200).json(user);
   } else {
     res.status(401).send();

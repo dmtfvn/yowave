@@ -1,6 +1,6 @@
-import { NewUserT } from '../user/NewUserT';
+import { UserDataT } from '../user/UserDataT';
 
 export type AuthUserT = {
   loggedIn: boolean;
-  userData: NewUserT;
+  userData: UserDataT;
 };

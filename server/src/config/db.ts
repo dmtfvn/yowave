@@ -1,15 +1,9 @@
-import { Pool, PoolConfig } from 'pg';
+import { Pool } from 'pg';
 import 'dotenv/config';
 
-interface NewPoolConfig extends Omit<PoolConfig, 'database' | 'host' | 'password' | 'user'> {
-  database: string;
-  host: string;
-  password: string;
-  user: string;
-  port?: number;
-}
+import { NewPoolConfigT } from '../types/pg/NewPoolConfigT';
 
-const poolConfig: NewPoolConfig = {
+const poolConfig: NewPoolConfigT = {
   database: process.env.DB_NAME!,
   host: process.env.DB_HOST!,
   password: process.env.DB_PASSWORD!,
