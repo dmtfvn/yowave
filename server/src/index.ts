@@ -11,7 +11,8 @@ import {
 } from './middlewares/sessionMiddleware';
 
 import authorizeUser from './middlewares/socketMiddleware';
-import { AuthorizedUserT } from './types/request/AuthorizedUserT';
+import setUserRedis from './utils/setUserRedis';
+import getUserRedis from './utils/getUserRedis';
 
 import routes from './routes';
 
@@ -32,11 +33,11 @@ app.use(routes);
 io.use(wrapSession(expressSession));
 io.use(authorizeUser);
 io.on('connection', (socket) => {
-  const req = socket.request as AuthorizedUserT;
+  setUserRedis(socket);
 
-  console.log('Session:', req.session?.user?.userData.username)
-  console.log('Socket id:', socket.id)
-  console.log('Socket userid:', req.user.userData.userid)
+  socket.on('reqData', (data: string, callback: (errMessage: string) => void) => {
+    getUserRedis({ socket, data, callback });
+  });
 });
 
 httpServer.listen(port, () => {
