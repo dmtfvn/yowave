@@ -20,7 +20,7 @@ export default async function getUserRedis({
   );
 
   if (friendList && friendList.indexOf(data) !== -1) {
-    console.log('Friend already added')
+    callback('Friend already added', friendList)
     return;
   }
 
@@ -29,9 +29,15 @@ export default async function getUserRedis({
   );
 
   if (!friendId) {
-    callback('Invalid friend');
+    callback('Invalid friend name', friendList);
     return;
   }
 
   await redisClient.lPush(`friends:${username}`, data);
+
+  const curFriendList = await redisClient.lRange(
+    `friends:${username}`, 0, -1
+  );
+
+  callback('', curFriendList);
 }

@@ -35,7 +35,7 @@ io.use(authorizeUser);
 io.on('connection', (socket) => {
   setUserRedis(socket);
 
-  socket.on('reqData', (data: string, callback: (errMessage: string) => void) => {
+  socket.on('reqData', (data: string, callback: (errMessage: string, res: string[]) => void) => {
     getUserRedis({ socket, data, callback });
   });
 });
