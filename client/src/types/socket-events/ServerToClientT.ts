@@ -1,3 +1,5 @@
+import { FriendsContextT } from '../friend/FriendsContextT';
+
 export type ServerToClientT = {
-  sendData: (data: string) => void;
+  friends: (data: FriendsContextT['friendList']) => void;
 };

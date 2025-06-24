@@ -1,3 +1,8 @@
+import { FriendT } from '../friend/FriendT';
+
 export type ClientToServerT = {
-  sendMessage: (message: string) => void;
+  reqData: (
+    data: string,
+    callback: (errMessage: string, res: FriendT['username'][]) => void
+  ) => void;
 };

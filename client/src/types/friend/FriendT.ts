@@ -1,4 +1,4 @@
 export type FriendT = {
   username: string;
-  connected: boolean;
+  online: boolean;
 };

@@ -8,7 +8,6 @@ import {
 
 import FriendsProvider from '../providers/FriendsProvider';
 
-import useSocketIO from '../../hooks/useSocketIO';
 import { useLogout } from '../../api/authApi';
 
 export default function Account() {
@@ -17,8 +16,6 @@ export default function Account() {
   const navTab = (currentPath: string) => {
     return (pathname === currentPath) ? 'text-stone-600' : 'text-black/60';
   }
-
-  useSocketIO();
 
   const { logoutHandler } = useLogout();
 

@@ -10,12 +10,17 @@ import { friendSchema } from '../../schemas/friendSchema';
 
 import useErrors from '../../hooks/useErrors';
 
+import socket from '../../lib/socket';
+import useSocketIO from '../../hooks/useSocketIO';
+
 export default function Contacts() {
   const { friendList, setFriendList } = useContext(FriendsContext);
 
+  const { loading } = useSocketIO(setFriendList);
+
   const { errors, errorsHandler } = useErrors();
 
-  const contactHandler = async (formData: FormData): Promise<void> => {
+  const friendHandler = async (formData: FormData): Promise<void> => {
     const data = Object.fromEntries(formData.entries());
 
     try {
@@ -23,6 +28,16 @@ export default function Contacts() {
         abortEarly: false,
       });
 
+      if (friendData.friend) {
+        socket.emit('reqData', friendData.friend, (errMessage, res) => {
+          if (errMessage) {
+            errorsHandler(new Error(errMessage));
+            return;
+          }
+
+          setFriendList(res);
+        });
+      }
       console.log(friendData);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -35,13 +50,17 @@ export default function Contacts() {
 
   return (
     <section className="max-w-[20.5em] w-full mt-16">
-      <form action={contactHandler} className="flex flex-col gap-4">
+      <form action={friendHandler} className="flex flex-col gap-4">
         <h1 className="text-2xl/6 font-palanquin text-center text-stone-700">
           Add contact
         </h1>
 
-        {errors &&
+        {errors.friend &&
           <p className="error-msg text-center">{errors.friend}</p>
+        }
+
+        {errors.general &&
+          <p className="error-msg text-center">{errors.general}</p>
         }
 
         <div className="w-full">
@@ -62,14 +81,20 @@ export default function Contacts() {
         </h2>
 
         <section className="relative flex flex-col min-h-[3.55em] rounded-lg border border-stone-800 px-2 divide-y">
+          {loading &&
+            <h2 className="absolute flex-center text-blue-600 inset-2">
+              Loading ...
+            </h2>
+          }
+
           {friendList.map(f => (
             <Friend
-              // key={}
-              {...f}
+              key={f}
+              username={f}
             />
           ))}
 
-          {!friendList.length &&
+          {!loading && !friendList.length &&
             <div className="absolute flex-center inset-2">
               <p className="text-md font-bold txt-shadow">Your list is empty</p>
             </div>

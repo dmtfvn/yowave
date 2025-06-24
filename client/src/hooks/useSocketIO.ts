@@ -1,12 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import useUserContext from './useUserContext';
 import socket from '../lib/socket';
 
-export default function useSocketIO() {
+import { FriendsContextT } from '../types/friend/FriendsContextT';
+
+export default function useSocketIO(setFriendList: FriendsContextT['setFriendList']) {
+  const [loading, setLoading] = useState(true);
+
   const { userLogout } = useUserContext();
 
   useEffect(() => {
+    setLoading(true);
+
     socket.connect();
 
     socket.on('connect', () => {
@@ -17,9 +23,19 @@ export default function useSocketIO() {
       userLogout();
     });
 
+    socket.on('friends', (friendList: FriendsContextT['friendList']) => {
+      setFriendList(friendList);
+
+      setLoading(false);
+    });
+
     return () => {
       socket.off('connect_error');
       socket.disconnect();
     }
-  }, [userLogout]);
+  }, [userLogout, setFriendList]);
+
+  return {
+    loading,
+  };
 }
