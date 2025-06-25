@@ -11,8 +11,12 @@ import {
 } from './middlewares/sessionMiddleware';
 
 import authorizeUser from './middlewares/socketMiddleware';
+
 import setUserRedis from './utils/setUserRedis';
 import getUserRedis from './utils/getUserRedis';
+import clearUserRedis from './utils/clearUserRedis';
+
+import { FriendT } from './types/friend/FriendT';
 
 import routes from './routes';
 
@@ -35,8 +39,12 @@ io.use(authorizeUser);
 io.on('connection', (socket) => {
   setUserRedis(socket);
 
-  socket.on('reqData', (data: string, callback: (errMessage: string, res: string[]) => void) => {
+  socket.on('reqData', (data: string, callback: (errMessage: string, res: FriendT[]) => void) => {
     getUserRedis({ socket, data, callback });
+  });
+
+  socket.on('disconnecting', () => {
+    clearUserRedis(socket);
   });
 });
 

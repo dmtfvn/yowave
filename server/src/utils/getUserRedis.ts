@@ -1,15 +1,18 @@
 import { redisClient } from '../lib/resid';
 
 import { RequestSocketT } from '../types/request/RequestSocketT';
-import { AuthorizedUserT } from '../types/request/AuthorizedUserT';
+import getSessionUserData from './getSessionUserData';
+
+import parseFriendListRedis from './parseFriendListRedis';
 
 export default async function getUserRedis({
   socket,
   data,
   callback
 }: RequestSocketT): Promise<void> {
-  const req = socket.request as AuthorizedUserT;
-  const username = req.session?.user?.userData.username;
+  const userData = getSessionUserData(socket);
+
+  const username = userData.username;
 
   if (!username || username === data) {
     return;
@@ -20,7 +23,7 @@ export default async function getUserRedis({
   );
 
   if (friendList && friendList.indexOf(data) !== -1) {
-    callback('Friend already added', friendList)
+    callback('Friend already added', []);
     return;
   }
 
@@ -29,15 +32,20 @@ export default async function getUserRedis({
   );
 
   if (!friendId) {
-    callback('Invalid friend name', friendList);
+    callback('Invalid friend name', []);
     return;
   }
 
-  await redisClient.lPush(`friends:${username}`, data);
+  await redisClient.lPush(
+    `friends:${username}`, [data, friendId].join('.')
+  );
 
   const curFriendList = await redisClient.lRange(
     `friends:${username}`, 0, -1
   );
 
-  callback('', curFriendList);
+  const parseFriendList = await parseFriendListRedis(curFriendList)
+  console.log('Parsed list', parseFriendList)
+
+  callback('', parseFriendList);
 }
