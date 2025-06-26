@@ -89,8 +89,8 @@ export default function Contacts() {
 
           {friendList.map(f => (
             <Friend
-              key={f}
-              username={f}
+              key={f.id}
+              {...f}
             />
           ))}
 

@@ -23,6 +23,18 @@ export default function useSocketIO(setFriendList: FriendsContextT['setFriendLis
       userLogout();
     });
 
+    socket.on('status', (status, username) => {
+      setFriendList(curState => {
+        return curState.map(f => {
+          if (f.username === username) {
+            f.online = status;
+          }
+
+          return f;
+        });
+      });
+    });
+
     socket.on('friends', (friendList: FriendsContextT['friendList']) => {
       setFriendList(friendList);
 
