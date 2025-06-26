@@ -11,7 +11,6 @@ userController.get('/user', async (
   res: Response
 ) => {
   const user = (req.session as SessionUserT).user;
-  console.log(user)
 
   if (user?.userData.userid) {
     res.status(200).json(user);

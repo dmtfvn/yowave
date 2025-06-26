@@ -2,15 +2,16 @@ import { QueryResult } from 'pg';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
+import pool from '../config/db';
+
 import { LoginFormValues } from '../schemas/loginSchema';
 import { SignupFormValues } from '../schemas/signupSchema';
 
+import authErrorExtender from '../utils/auth/authErrorExtender';
+import authUserCreator from '../utils/auth/authUserCreator';
+
 import { AuthUserT } from '../types/response/AuthUserT';
 import { AllUserDataQueryT } from '../types/user/AllUserDataQueryT';
-
-import pool from '../config/db';
-import authErrorExtender from '../utils/authErrorExtender';
-import authUserCreator from '../utils/authUserCreator';
 import { UserDataQueryT } from '../types/user/UserDataQueryT';
 import { UserDataT } from '../types/user/UserDataT';
 

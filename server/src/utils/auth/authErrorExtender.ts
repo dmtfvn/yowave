@@ -1,4 +1,4 @@
-import { AuthErrorT } from '../types/response/AuthErrorT';
+import { AuthErrorT } from '../../types/response/AuthErrorT';
 
 export default function authErrorExtender(data?: string) {
   const err = new Error() as AuthErrorT;
@@ -6,7 +6,7 @@ export default function authErrorExtender(data?: string) {
   if (data) {
     err.errorData = { loggedIn: false, status: `${data} already taken` };
   } else {
-    err.errorData = { loggedIn: false, status: 'Invalid credentials' }
+    err.errorData = { loggedIn: false, status: 'Invalid credentials' };
   }
 
   return err;

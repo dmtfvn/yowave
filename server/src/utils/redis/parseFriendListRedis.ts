@@ -1,12 +1,12 @@
-import { redisClient } from '../lib/resid';
+import { redisClient } from '../../lib/resid';
 
-import { FriendT } from '../types/friend/FriendT';
+import { FriendT } from '../../types/friend/FriendT';
 
 export default async function parseFriendListRedis(friendList: string[]): Promise<FriendT[]> {
   const newFriendList: FriendT[] = [];
 
   for (const data of friendList) {
-    const friend = data.split('.');
+    const friend = data.split(':');
 
     const friendStatus = await redisClient.hGet(
       `userid:${friend[0]}`, 'online'

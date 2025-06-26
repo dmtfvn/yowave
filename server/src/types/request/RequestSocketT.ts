@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 
-import { FriendT } from '../../utils/parseFriendListRedis';
+import { FriendT } from '../friend/FriendT';
 
 export type RequestSocketT = {
   socket: Socket;

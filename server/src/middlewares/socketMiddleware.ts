@@ -12,8 +12,6 @@ const authorizeUser = (
     next(new Error('Not authorized'));
   } else {
     next();
-
-    console.log('Good request')
   }
 }
 

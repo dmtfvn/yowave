@@ -1,5 +1,5 @@
-import { UserDataT } from '../types/user/UserDataT';
-import { AuthUserT } from '../types/response/AuthUserT';
+import { UserDataT } from '../../types/user/UserDataT';
+import { AuthUserT } from '../../types/response/AuthUserT';
 
 export default function authUserCreator(data: UserDataT): AuthUserT {
   return {

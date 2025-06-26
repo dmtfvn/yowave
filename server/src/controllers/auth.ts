@@ -9,15 +9,15 @@ import { AuthUserT } from '../types/response/AuthUserT';
 import { FailedQueryT } from '../types/response/FailedQueryT';
 import { SessionUserT } from '../types/session/SessionUserT';
 
-import { authRateLimit } from '../middlewares/authRateLimitMiddleware';
+import { rateLimit } from '../middlewares/rateLimitMiddleware';
 import { validateLogin, validateSignup } from '../middlewares/authMiddleware';
 
 import authService from '../services/authService';
-import authErrorHandler from '../utils/authErrorHandler';
+import authErrorHandler from '../utils/auth/authErrorHandler';
 
 const authController = Router();
 
-authController.post('/login', authRateLimit(10), validateLogin, async (
+authController.post('/login', rateLimit(10), validateLogin, async (
   req: RequestLoginT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {
@@ -36,7 +36,7 @@ authController.post('/login', authRateLimit(10), validateLogin, async (
   }
 });
 
-authController.post('/register', authRateLimit(4), validateSignup, async (
+authController.post('/register', rateLimit(4), validateSignup, async (
   req: RequestSignupT,
   res: Response<AuthUserT | FailedQueryT>
 ) => {

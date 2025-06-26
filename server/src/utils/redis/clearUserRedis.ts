@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 
-import { redisClient } from '../lib/resid';
-import getSessionUsername from './getSessionUserData';
+import { redisClient } from '../../lib/resid';
+import getSessionUsername from '../getSessionUserData';
 
 import parseFriendListRedis from './parseFriendListRedis';
 
@@ -25,5 +25,5 @@ export default async function clearUserRedis(socket: Socket) {
     return friends.map(f => f.id);
   });
 
-  socket.to(friendRooms).emit('online', false, username);
+  socket.to(friendRooms).emit('status', false, username);
 }

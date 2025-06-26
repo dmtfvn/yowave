@@ -1,11 +1,11 @@
-import { redisClient } from '../lib/resid';
+import { redisClient } from '../../lib/resid';
 
-import { RequestSocketT } from '../types/request/RequestSocketT';
-import getSessionUserData from './getSessionUserData';
+import { RequestSocketT } from '../../types/request/RequestSocketT';
+import getSessionUserData from '../getSessionUserData';
 
 import parseFriendListRedis from './parseFriendListRedis';
 
-export default async function getUserRedis({
+export default async function addFriendRedis({
   socket,
   data,
   callback
@@ -37,15 +37,14 @@ export default async function getUserRedis({
   }
 
   await redisClient.lPush(
-    `friends:${username}`, [data, friendId].join('.')
+    `friends:${username}`, [data, friendId].join(':')
   );
 
   const curFriendList = await redisClient.lRange(
     `friends:${username}`, 0, -1
   );
 
-  const parseFriendList = await parseFriendListRedis(curFriendList)
-  console.log('Parsed list', parseFriendList)
+  const parseFriendList = await parseFriendListRedis(curFriendList);
 
   callback('', parseFriendList);
 }
