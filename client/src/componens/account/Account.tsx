@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import FriendsProvider from '../providers/FriendsProvider';
+import MessagesProvider from '../providers/MessagesProvider';
 
 import { useLogout } from '../../api/authApi';
 
@@ -23,7 +24,9 @@ export default function Account() {
     <FriendsProvider>
       <section className="flex-center flex-col min-h-screen w-full">
         <div className="flex justify-center grow w-full">
-          <Outlet />
+          <MessagesProvider>
+            <Outlet />
+          </MessagesProvider>
         </div>
 
         <nav className="flex justify-center fixed bottom-0 right-0 left-0 bg-stone-900 border-t-2 border-black/35">

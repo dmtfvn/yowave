@@ -1,27 +1,29 @@
-import { useContext } from 'react';
 import { UserPlusIcon } from '@heroicons/react/24/solid';
 
-import { FriendsContext } from '../contexts/FriendsContext';
-
-import MainInput from '../inputs/main-input/MainInput';
-
-import Friend from '../friend/Friend';
-import { friendSchema } from '../../schemas/friendSchema';
-
+import useFriendContext from '../../hooks/useFriendContext';
 import useErrors from '../../hooks/useErrors';
 
-import socket from '../../lib/socket';
+import { friendSchema } from '../../schemas/friendSchema';
+
+import MainInput from '../inputs/main-input/MainInput';
+import Friend from '../friend/Friend';
+
 import useSocketIO from '../../hooks/useSocketIO';
+import socket from '../../lib/socket';
 
 export default function Contacts() {
-  const { friendList, setFriendList } = useContext(FriendsContext);
+  const { friendList, setFriendList } = useFriendContext();
 
-  const { loading } = useSocketIO(setFriendList);
+  const { loading } = useSocketIO();
 
-  const { errors, errorsHandler } = useErrors();
+  const { errors, setErrors, errorsHandler } = useErrors();
 
   const friendHandler = async (formData: FormData): Promise<void> => {
     const data = Object.fromEntries(formData.entries());
+
+    if (!data.friend) {
+      setErrors({});
+    }
 
     try {
       const friendData = await friendSchema.validate(data, {
@@ -36,9 +38,9 @@ export default function Contacts() {
           }
 
           setFriendList(res);
+          setErrors({});
         });
       }
-      console.log(friendData);
     } catch (err: unknown) {
       if (err instanceof Error) {
         errorsHandler(err);
@@ -63,13 +65,13 @@ export default function Contacts() {
           <p className="error-msg text-center">{errors.general}</p>
         }
 
-        <div className="w-full">
+        <div className="flex flex-col w-full gap-2">
           <MainInput
             label="friend"
             hint="Type here to add a contact"
           />
 
-          <button className="flex justify-center w-full rounded-md bg-stone-800 mt-2 py-2 cursor-pointer">
+          <button className="flex justify-center w-full rounded-md bg-stone-800 py-2 cursor-pointer">
             <UserPlusIcon className="size-4" />
           </button>
         </div>
