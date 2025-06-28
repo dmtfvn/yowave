@@ -11,15 +11,16 @@ import {
 } from './middlewares/sessionMiddleware';
 
 import authorizeUser from './middlewares/socketMiddleware';
+
 import setUserRedis from './utils/redis/setUserRedis';
+import getFriendIdRedis from './utils/redis/getFriendIdRedis';
 import addFriendRedis from './utils/redis/addFriendRedis';
 import addFriendIdRedis from './utils/redis/addFriendIdRedis';
-
 import clearUserRedis from './utils/redis/clearUserRedis';
 
-import { FriendT } from './types/friend/FriendT';
-
 import routes from './routes';
+
+import { FriendT } from './types/friend/FriendT';
 
 const app = express();
 const port: number = 3000;
@@ -39,12 +40,11 @@ io.use(wrapSession(expressSession));
 io.use(authorizeUser);
 io.on('connection', (socket) => {
   setUserRedis(socket);
+  getFriendIdRedis(socket);
 
-  socket.on('reqData', (data: string, callback: (errMessage: string, res: FriendT[]) => void) => {
+  socket.on('friend', (data: string, callback: (errMessage: string, res: FriendT[]) => void) => {
     addFriendRedis({ socket, data, callback });
   });
-
-  // socket.emit('friendId', 'test-id');
 
   socket.on('friendId', (id: string, callback: (res: string) => void) => {
     addFriendIdRedis({ socket, id, callback });
