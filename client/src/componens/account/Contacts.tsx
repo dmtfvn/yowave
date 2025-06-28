@@ -31,7 +31,7 @@ export default function Contacts() {
       });
 
       if (friendData.friend) {
-        socket.emit('reqData', friendData.friend, (errMessage, res) => {
+        socket.emit('friend', friendData.friend, (errMessage, res) => {
           if (errMessage) {
             errorsHandler(new Error(errMessage));
             return;
@@ -85,7 +85,7 @@ export default function Contacts() {
         <section className="relative flex flex-col min-h-[3.55em] rounded-lg border border-stone-800 px-2 divide-y">
           {loading &&
             <h2 className="absolute flex-center text-blue-600 inset-2">
-              Loading ...
+              Loading...
             </h2>
           }
 

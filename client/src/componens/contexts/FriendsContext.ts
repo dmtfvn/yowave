@@ -4,7 +4,7 @@ import { FriendsContextT } from '../../types/friend/FriendsContextT';
 
 export const FriendsContext = createContext<FriendsContextT>({
   friendList: [],
-  setFriendList: () => { },
+  setFriendList: () => {},
   friendId: '',
-  setFriendId: () => { },
+  setFriendId: () => {},
 });

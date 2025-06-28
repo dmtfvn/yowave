@@ -8,6 +8,6 @@ export const UserContext = createContext<UserContextT>({
     userid: '',
     username: '',
   },
-  userLogin: () => null,
-  userLogout: () => null,
+  userLogin: () => {},
+  userLogout: () => {},
 });
