@@ -1,19 +1,18 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 import useFriendContext from '../../hooks/useFriendContext';
+import useMessageContext from '../../hooks/useMessageContext';
+
+import useSocketIO from '../../hooks/useSocketIO';
 
 import Messages from '../messages/Messages';
 import MainInput from '../inputs/main-input/MainInput';
-import useMessageContext from '../../hooks/useMessageContext';
-import useSocketIO from '../../hooks/useSocketIO';
-import { useEffect } from 'react';
-import socket from '../../lib/socket';
 
 export default function Chat() {
-  const { friendId, setFriendId } = useFriendContext();
+  const { friendId } = useFriendContext();
   const { messages } = useMessageContext();
 
-  useSocketIO();
+  const { errorMsg } = useSocketIO();
 
   const chatHandler = (formData: FormData) => {
     const data = Object.fromEntries(formData.entries());
@@ -21,29 +20,21 @@ export default function Chat() {
     console.log(data)
   }
 
-  useEffect(() => {
-    socket.on('friendId', (res) => {
-      console.log(res)
-      setFriendId(res);
-    });
-
-    return () => {
-      socket.off('friendId');
-    };
-  }, [setFriendId]);
-
   return (
     <section className="flex-center flex-col">
-      {friendId
+      {!errorMsg && friendId
         ?
         <Messages
           friendId={friendId}
           chatData={messages}
         />
         :
-        <h1>Select someone from your contacts to chat with</h1>
+        <h1 className="error-msg">{errorMsg}</h1>
       }
 
+      {!friendId && !errorMsg &&
+        <h1>Select someone from your contacts to chat with</h1>
+      }
 
       <form action={chatHandler} className="flex w-full gap-2">
         <MainInput

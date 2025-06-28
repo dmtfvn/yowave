@@ -1,6 +1,8 @@
 import { FriendsContextT } from '../friend/FriendsContextT';
 
 export type ServerToClientT = {
-  friends: (data: FriendsContextT['friendList']) => void;
-  status: (online: boolean, username: string) => void;
+  friendStatus: (username: string, online: boolean) => void;
+  friendList: (data: FriendsContextT['friendList']) => void;
+  getFriendId: (data: string) => void;
+  messages: (message: Record<string, string>[]) => void;
 };
