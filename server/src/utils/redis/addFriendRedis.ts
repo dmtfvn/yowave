@@ -1,7 +1,7 @@
-import { redisClient } from '../../lib/resid';
+import { FriendSocketT } from '../../types/request/FriendSocketT';
 
-import { RequestSocketT } from '../../types/request/RequestSocketT';
 import getSessionUserData from '../getSessionUserData';
+import { redisClient } from '../../lib/resid';
 
 import parseFriendListRedis from './parseFriendListRedis';
 
@@ -9,21 +9,12 @@ export default async function addFriendRedis({
   socket,
   data,
   callback
-}: RequestSocketT): Promise<void> {
+}: FriendSocketT): Promise<void> {
   const userData = getSessionUserData(socket);
 
   const username = userData.username;
 
   if (!username || username === data) {
-    return;
-  }
-
-  const friendList = await redisClient.lRange(
-    `friends:${username}`, 0, -1
-  );
-
-  if (friendList && friendList.indexOf(data) !== -1) {
-    callback('Friend already added', []);
     return;
   }
 
@@ -33,6 +24,15 @@ export default async function addFriendRedis({
 
   if (!friendId) {
     callback('Invalid friend name', []);
+    return;
+  }
+
+  const friendList = await redisClient.lRange(
+    `friends:${username}`, 0, -1
+  );
+
+  if (friendList && friendList.indexOf(`${data}:${friendId}`) !== -1) {
+    callback('Friend already added', []);
     return;
   }
 

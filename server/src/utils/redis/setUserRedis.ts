@@ -28,8 +28,8 @@ export default async function setUserRedis(socket: Socket) {
   const friendRooms = parseFriendList.map(f => f.id);
 
   if (friendRooms.length) {
-    socket.to(friendRooms).emit('status', true, username);
+    socket.to(friendRooms).emit('friendStatus', username, true);
   }
 
-  socket.emit('friends', parseFriendList);
+  socket.emit('friendList', parseFriendList);
 }
