@@ -8,9 +8,10 @@ import parseFriendListRedis from './parseFriendListRedis';
 export default async function setUserRedis(socket: Socket) {
   const userData = getSessionUserData(socket);
 
-  socket.join(userData.userid);
-
   const username = userData.username;
+  const userId = userData.userid;
+
+  socket.join(userId);
 
   await redisClient.hSet(
     `userid:${username}`,
@@ -32,4 +33,22 @@ export default async function setUserRedis(socket: Socket) {
   }
 
   socket.emit('friendList', parseFriendList);
+
+  const chatData = await redisClient.lRange(
+    `chat:${userId}`, 0, -1
+  );
+
+  const msgData = chatData.map(d => {
+    const data = d.split(':');
+
+    return {
+      to: data[0],
+      from: data[1],
+      content: data[2],
+    };
+  });
+
+  if (msgData && msgData.length) {
+    socket.emit('messages', msgData);
+  }
 }

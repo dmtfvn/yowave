@@ -16,11 +16,14 @@ import setUserRedis from './utils/redis/setUserRedis';
 import getFriendIdRedis from './utils/redis/getFriendIdRedis';
 import addFriendRedis from './utils/redis/addFriendRedis';
 import addFriendIdRedis from './utils/redis/addFriendIdRedis';
+import dmFriendRedis from './utils/redis/dmFriendRedis';
+
 import clearUserRedis from './utils/redis/clearUserRedis';
 
 import routes from './routes';
 
 import { FriendT } from './types/friend/FriendT';
+import { DirectMsgT } from './types/friend/DirectMsgT';
 
 const app = express();
 const port: number = 3000;
@@ -48,6 +51,10 @@ io.on('connection', (socket) => {
 
   socket.on('friendId', (id: string, callback: (res: string) => void) => {
     addFriendIdRedis({ socket, id, callback });
+  });
+
+  socket.on('dm', (data: DirectMsgT) => {
+    dmFriendRedis(socket, data);
   });
 
   socket.on('disconnecting', () => {
