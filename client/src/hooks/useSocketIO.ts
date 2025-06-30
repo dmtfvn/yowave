@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import useUserContext from './useUserContext';
 import socket from '../lib/socket';
 
-import { FriendsContextT } from '../types/friend/FriendsContextT';
 import useFriendContext from './useFriendContext';
 import useMessageContext from './useMessageContext';
+
+import { FriendsContextT } from '../types/friend/FriendsContextT';
+import { DirectMsgT } from '../types/friend/DirectMsgT';
 
 export default function useSocketIO() {
   const [loading, setLoading] = useState(true);
@@ -37,8 +39,8 @@ export default function useSocketIO() {
       });
     });
 
-    socket.on('friendList', (friendList: FriendsContextT['friendList']) => {
-      setFriendList(friendList);
+    socket.on('friendList', (data: FriendsContextT['friendList']) => {
+      setFriendList(data);
 
       setLoading(false);
     });
@@ -52,8 +54,12 @@ export default function useSocketIO() {
       setFriendId(data);
     });
 
-    socket.on('messages', (messages: Record<string, string>[]) => {
-      setMessages(messages);
+    socket.on('messages', (data: DirectMsgT[]) => {
+      setMessages(data);
+    });
+
+    socket.on('msg', (data: DirectMsgT) => {
+      setMessages(curState => [data, ...curState]);
     });
 
     return () => {
@@ -62,6 +68,7 @@ export default function useSocketIO() {
       socket.off('friendList');
       socket.off('getFriendId');
       socket.off('messages');
+      socket.off('msg');
 
       socket.disconnect();
     }

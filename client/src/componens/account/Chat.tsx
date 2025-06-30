@@ -1,27 +1,42 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
+import useUserContext from '../../hooks/useUserContext';
 import useFriendContext from '../../hooks/useFriendContext';
 import useMessageContext from '../../hooks/useMessageContext';
 
 import useSocketIO from '../../hooks/useSocketIO';
+import socket from '../../lib/socket';
 
 import Messages from '../messages/Messages';
 import MainInput from '../inputs/main-input/MainInput';
 
 export default function Chat() {
+  const { userData } = useUserContext();
   const { friendId } = useFriendContext();
-  const { messages } = useMessageContext();
+  const { messages, setMessages } = useMessageContext();
 
   const { errorMsg } = useSocketIO();
 
   const chatHandler = (formData: FormData) => {
-    const data = Object.fromEntries(formData.entries());
+    const data = Object.fromEntries(formData.entries()) as Record<string, string>;
 
-    console.log(data)
+    if (!data.chat || !friendId) {
+      return;
+    }
+
+    const msgData = {
+      to: friendId,
+      from: userData.userid,
+      content: data.chat,
+    };
+
+    socket.emit('dm', msgData);
+
+    setMessages(curState => [msgData, ...curState]);
   }
 
   return (
-    <section className="flex-center flex-col">
+    <section className="relative flex flex-col max-w-[20.5em] w-full">
       {!errorMsg && friendId
         ?
         <Messages
@@ -36,7 +51,7 @@ export default function Chat() {
         <h1>Select someone from your contacts to chat with</h1>
       }
 
-      <form action={chatHandler} className="flex w-full gap-2">
+      <form action={chatHandler} className="absolute bottom-20 left-0 right-0 flex gap-2">
         <MainInput
           label="chat"
           hint="Type here to start a chat"
