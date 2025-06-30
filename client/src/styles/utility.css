@@ -1,0 +1,51 @@
+@utility flex-center {
+  @apply flex justify-center items-center;
+}
+
+@utility main-input-style {
+  @apply bg-black/20 w-full rounded-md px-3 py-1.5 text-base text-[var(--color-yt-ish)] outline-1 -outline-offset-1 outline-stone-800 placeholder:text-gray-700 focus:outline-2 focus:-outline-offset-2 focus:outline-stone-800;
+}
+
+@utility icon-wrapper-style {
+  @apply flex-center flex-col max-w-20.5 w-full p-2 hover:bg-stone-800;
+}
+
+@utility icon-style {
+  @apply size-6 w-8;
+}
+
+@utility label-style {
+  @apply text-sm/6 font-medium text-stone-700;
+}
+
+@utility auth-form-style {
+  @apply flex max-w-[17.5em] flex-1 flex-col justify-center py-12;
+}
+
+@utility auth-form-h1-style {
+  @apply mb-10 text-center text-2xl/9 font-bold text-sky-800;
+}
+
+@utility auth-form-p-style {
+  @apply mt-10 text-center text-sm/6 text-gray-500;
+}
+
+@utility auth-form-link-style {
+  @apply font-semibold text-sky-600;
+}
+
+@utility responsive-p-style {
+  @apply text-[min(5vw,1rem)];
+}
+
+@utility contact-username-style {
+  @apply font-palanquin text-2xl text-stone-600 truncate overflow-hidden ml-2;
+}
+
+@utility txt-shadow {
+  @apply text-shadow-xs text-shadow-stone-800;
+}
+
+@utility error-msg {
+  @apply text-sm/6 text-red-400;
+}

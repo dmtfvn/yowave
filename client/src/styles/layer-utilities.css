@@ -1,0 +1,17 @@
+@layer utilities {
+  .custom-x-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .custom-x-scroll::-webkit-scrollbar {
+    width: 0px;
+  }
+}
+
+@layer utilities {
+  .word-wrap {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
