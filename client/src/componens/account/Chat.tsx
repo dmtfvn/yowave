@@ -1,4 +1,5 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
+import { v4 as uuidv4 } from 'uuid';
 
 import useUserContext from '../../hooks/useUserContext';
 import useFriendContext from '../../hooks/useFriendContext';
@@ -27,6 +28,7 @@ export default function Chat() {
     const msgData = {
       to: friendId,
       from: userData.userid,
+      id: uuidv4(),
       content: data.chat,
     };
 
@@ -51,7 +53,7 @@ export default function Chat() {
         <h1>Select someone from your contacts to chat with</h1>
       }
 
-      <form action={chatHandler} className="absolute bottom-20 left-0 right-0 flex gap-2">
+      <form action={chatHandler} className="absolute bottom-22 left-0 right-0 flex gap-2">
         <MainInput
           label="chat"
           hint="Type here to start a chat"

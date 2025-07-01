@@ -1,22 +1,48 @@
+import { useEffect, useRef } from 'react';
+
+import useFriendContext from '../../hooks/useFriendContext';
+
 import { MessagesT } from '../../types/messages/MessagesT';
 
 export default function Messages({
   friendId,
   chatData,
 }: MessagesT) {
+  const divRef = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.scrollIntoView();
+    }
+  }, [chatData]);
+
+  const { friendList } = useFriendContext();
+
+  const friend = friendList.find(f => f.id === friendId);
+
   return (
     <>
-      <h1>All messages for: {friendId}</h1>
+      <div className="flex items-end p-4">
+        <img
+          src="/user-icon.png"
+          alt="user icon"
+          className={`max-w-[2.5em] rounded-full border-2 ${friend?.online ? 'border-green-600' : 'border-red-600'}`}
+        />
 
-      <section className="flex flex-col-reverse max-h-[70vh] h-full overflow-y-scroll custom-x-scroll gap-2">
+        <p className="friend-name-style">{friend?.username}</p>
+      </div>
+
+      <section className="messages-style custom-x-scroll">
+        <div ref={divRef} />
+
         {chatData
           .filter(d => d.to === friendId || d.from === friendId)
-          .map((d, idx) => (
-            <div className={`flex ${d.from === friendId ? 'mr-auto' : 'ml-auto'}`}>
-              <p
-                key={idx}
-                className={`text-amber-300 rounded-md word-wrap p-2 ${d.from === friendId ? 'bg-black/75' : 'bg-black/25'}`}
-              >
+          .map(d => (
+            <div
+              key={d.id}
+              className={`flex ${d.from === friendId ? 'mr-auto' : 'ml-auto'}`}
+            >
+              <p className={`msg-style word-wrap ${d.from === friendId ? 'bg-black/85' : 'bg-black/20'}`}>
                 {d.content}
               </p>
             </div>

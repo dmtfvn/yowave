@@ -38,8 +38,16 @@
   @apply text-[min(5vw,1rem)];
 }
 
-@utility contact-username-style {
+@utility friend-name-style {
   @apply font-palanquin text-2xl text-stone-600 truncate overflow-hidden ml-2;
+}
+
+@utility messages-style {
+  @apply flex flex-col-reverse max-h-[70vh] h-full overflow-y-scroll gap-4 rounded-md p-2 border border-stone-800 hover:bg-black/20;
+}
+
+@utility msg-style {
+  @apply text-stone-500 rounded-md p-2;
 }
 
 @utility txt-shadow {
