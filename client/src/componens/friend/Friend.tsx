@@ -33,7 +33,7 @@ export default function Friend({
         className={`max-w-[2.5em] rounded-full border-2 ${online ? 'border-green-600' : 'border-red-600'}`}
       />
 
-      <p className="contact-username-style">{username}</p>
+      <p className="friend-name-style">{username}</p>
     </button>
   );
 }

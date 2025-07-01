@@ -31,7 +31,7 @@ export default function Contacts() {
       });
 
       if (friendData.friend) {
-        socket.emit('friend', friendData.friend, (errMessage, res) => {
+        socket.emit('friendName', friendData.friend, (errMessage, res) => {
           if (errMessage) {
             errorsHandler(new Error(errMessage));
             return;

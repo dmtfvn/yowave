@@ -1,12 +1,14 @@
 import { FriendT } from '../friend/FriendT';
+import { DirectMsgT } from '../friend/DirectMsgT';
 
 export type ClientToServerT = {
-  friend: (
-    data: string,
+  friendName: (
+    name: string,
     callback: (errMessage: string, res: FriendT[]) => void
   ) => void;
   friendId: (
     id: string,
     callback: (res: string) => void
   ) => void;
+  dm: (data: DirectMsgT) => void;
 };

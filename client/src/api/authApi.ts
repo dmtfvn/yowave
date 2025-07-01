@@ -16,7 +16,7 @@ export const useLogin = () => {
   const { userLogin } = useUserContext();
 
   const loginHandler = async (_: void, formData: FormData): Promise<void> => {
-    const userData = Object.fromEntries(formData.entries());
+    const userData = Object.fromEntries(formData.entries()) as Record<string, string>;
 
     try {
       if (Object.values(userData).some(el => el === '')) {
@@ -24,8 +24,8 @@ export const useLogin = () => {
       }
 
       const authData = await request.post(`${url}/login`, {
-        email: userData.email.toString(),
-        password: userData.password.toString(),
+        email: userData.email,
+        password: userData.password,
       });
 
       if ('status' in authData) {
