@@ -16,7 +16,7 @@ export default async function setUserRedis(socket: Socket) {
   await redisClient.hSet(
     `userid:${username}`,
     {
-      id: userData.userid,
+      id: userId,
       online: 'true',
     }
   );
@@ -39,12 +39,13 @@ export default async function setUserRedis(socket: Socket) {
   );
 
   const msgData = chatData.map(d => {
-    const data = d.split(':');
+    const data = d.split('<{~}>');
 
     return {
       to: data[0],
       from: data[1],
-      content: data[2],
+      id: data[2],
+      content: data[3],
     };
   });
 

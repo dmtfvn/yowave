@@ -4,7 +4,7 @@ import { DirectMsgT } from '../../types/friend/DirectMsgT';
 import { redisClient } from '../../lib/resid';
 
 export default async function dmFriendRedis(socket: Socket, data: DirectMsgT) {
-  const message = [data.to, data.from, data.content].join(':');
+  const message = [data.to, data.from, data.id, data.content].join('<{~}>');
 
   await redisClient.lPush(
     `chat:${data.to}`, message
