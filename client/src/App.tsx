@@ -20,7 +20,7 @@ import './App.css';
 function App() {
   return (
     <UserProvider>
-      <main className="flex-center min-h-screen px-2">
+      <main className="relative flex-center min-h-screen px-2">
         <Routes>
           <Route path="/" element={<Splash />} />
 

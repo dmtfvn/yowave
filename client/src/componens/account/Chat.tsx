@@ -49,8 +49,10 @@ export default function Chat() {
         <h1 className="error-msg">{errorMsg}</h1>
       }
 
-      {!friendId && !errorMsg &&
-        <h1>Select someone from your contacts to chat with</h1>
+      {!friendId && !errorMsg && !messages &&
+        <h1 className="text-center text-2xl txt-shadow my-auto">
+          Select someone from your contacts to chat with
+        </h1>
       }
 
       <form action={chatHandler} className="absolute bottom-22 left-0 right-0 flex gap-2">

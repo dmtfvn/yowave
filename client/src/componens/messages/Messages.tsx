@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 
 import useFriendContext from '../../hooks/useFriendContext';
 
@@ -22,14 +23,22 @@ export default function Messages({
 
   return (
     <>
-      <div className="flex items-end p-4">
+      <div className="relative flex items-center justify-between p-4">
         <img
           src="/user-icon.png"
           alt="user icon"
-          className={`max-w-[2.5em] rounded-full border-2 ${friend?.online ? 'border-green-600' : 'border-red-600'}`}
+          className="friend-avatar-style"
         />
 
-        <p className="friend-name-style">{friend?.username}</p>
+        <p className={`absolute top-3 left-16 text-[0.8em] ${friend?.online ? 'text-green-600' : 'text-red-600'}`}>
+          {friend?.online ? 'online' : 'offline'}
+        </p>
+
+        <p className="absolute bottom-4 left-15.5 friend-name-style">
+          {friend?.username}
+        </p>
+
+        <EllipsisVerticalIcon className='size-8 rounded-full hover:bg-black/15 cursor-pointer' />
       </div>
 
       <section className="messages-style custom-x-scroll">
