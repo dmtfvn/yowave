@@ -11,6 +11,8 @@ import Friend from '../friend/Friend';
 import useSocketIO from '../../hooks/useSocketIO';
 import socket from '../../lib/socket';
 
+import Spinner from '../spinner/Spinner';
+
 export default function Contacts() {
   const { friendList, setFriendList } = useFriendContext();
 
@@ -83,18 +85,17 @@ export default function Contacts() {
         </h2>
 
         <section className="relative flex flex-col min-h-[3.55em] rounded-lg border border-stone-800 px-2 divide-y">
-          {loading &&
-            <h2 className="absolute flex-center text-blue-600 inset-2">
-              Loading...
-            </h2>
+          {loading
+            ?
+            <Spinner />
+            :
+            friendList.map(f => (
+              <Friend
+                key={f.id}
+                {...f}
+              />
+            ))
           }
-
-          {friendList.map(f => (
-            <Friend
-              key={f.id}
-              {...f}
-            />
-          ))}
 
           {!loading && !friendList.length &&
             <div className="absolute flex-center inset-2">

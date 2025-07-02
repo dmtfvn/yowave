@@ -38,12 +38,16 @@
   @apply text-[min(5vw,1rem)];
 }
 
+@utility friend-avatar-style {
+  @apply max-w-[2.5em] aspect-square object-cover rounded-full;
+}
+
 @utility friend-name-style {
-  @apply font-palanquin text-2xl text-stone-600 truncate overflow-hidden ml-2;
+  @apply font-palanquin text-2xl text-stone-600 truncate overflow-hidden;
 }
 
 @utility messages-style {
-  @apply flex flex-col-reverse max-h-[70vh] h-full overflow-y-scroll gap-4 rounded-md p-2 border border-stone-800 hover:bg-black/20;
+  @apply flex flex-col-reverse h-[calc(100vh-14rem)] overflow-y-scroll gap-4 rounded-md p-2 border border-stone-800 hover:bg-black/20;
 }
 
 @utility msg-style {

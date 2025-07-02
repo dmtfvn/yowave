@@ -30,10 +30,10 @@ export default function Friend({
       <img
         src="/user-icon.png"
         alt="user icon"
-        className={`max-w-[2.5em] rounded-full border-2 ${online ? 'border-green-600' : 'border-red-600'}`}
+        className={`friend-avatar-style border-2 ${online ? 'border-green-600' : 'border-red-600'}`}
       />
 
-      <p className="friend-name-style">{username}</p>
+      <p className="friend-name-style ml-2">{username}</p>
     </button>
   );
 }

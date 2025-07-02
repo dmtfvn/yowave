@@ -6,6 +6,8 @@ import { baseUrl } from '../../utils/consts';
 import { ChildrenT } from '../../types/children/ChildrenT';
 import { UserT } from '../../types/user/UserT';
 
+import Spinner from '../spinner/Spinner';
+
 export default function UserProvider({ children }: ChildrenT) {
   const [user, setUser] = useState<UserT>({
     loggedIn: false,
@@ -49,7 +51,7 @@ export default function UserProvider({ children }: ChildrenT) {
   }
 
   if (loading) {
-    return <h1 className="text-blue-800">Loading...</h1>
+    return <Spinner />
   }
 
   return (
