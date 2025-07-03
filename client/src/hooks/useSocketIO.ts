@@ -10,7 +10,7 @@ import { FriendsContextT } from '../types/friend/FriendsContextT';
 import { DirectMsgT } from '../types/friend/DirectMsgT';
 
 export default function useSocketIO() {
-  const [loading, setLoading] = useState(true);
+  const [loadingList, setLoadingList] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
 
   const { setFriendList, setFriendId } = useFriendContext();
@@ -19,7 +19,7 @@ export default function useSocketIO() {
   const { userLogout } = useUserContext();
 
   useEffect(() => {
-    setLoading(true);
+    setLoadingList(true);
 
     socket.connect();
 
@@ -42,7 +42,7 @@ export default function useSocketIO() {
     socket.on('friendList', (data: FriendsContextT['friendList']) => {
       setFriendList(data);
 
-      setLoading(false);
+      setLoadingList(false);
     });
 
     socket.on('getFriendId', (data) => {
@@ -75,7 +75,7 @@ export default function useSocketIO() {
   }, [userLogout, setFriendList, setMessages, setFriendId]);
 
   return {
-    loading,
+    loadingList,
     errorMsg,
   };
 }

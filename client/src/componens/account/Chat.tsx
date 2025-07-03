@@ -10,13 +10,14 @@ import socket from '../../lib/socket';
 
 import Messages from '../messages/Messages';
 import MainInput from '../inputs/main-input/MainInput';
+import Spinner from '../spinner/Spinner';
 
 export default function Chat() {
   const { userData } = useUserContext();
   const { friendId } = useFriendContext();
   const { messages, setMessages } = useMessageContext();
 
-  const { errorMsg } = useSocketIO();
+  const { errorMsg, loadingList } = useSocketIO();
 
   const chatHandler = (formData: FormData) => {
     const data = Object.fromEntries(formData.entries()) as Record<string, string>;
@@ -39,20 +40,26 @@ export default function Chat() {
 
   return (
     <section className="relative flex flex-col max-w-[20.5em] w-full">
-      {!errorMsg && friendId
+      {loadingList
         ?
-        <Messages
-          friendId={friendId}
-          chatData={messages}
-        />
+        <Spinner />
         :
-        <h1 className="error-msg">{errorMsg}</h1>
-      }
-
-      {!friendId && !errorMsg && !messages &&
-        <h1 className="text-center text-2xl txt-shadow my-auto">
-          Select someone from your contacts to chat with
-        </h1>
+        (!friendId
+          ?
+          <h1 className="text-center text-2xl txt-shadow my-auto">
+            Select someone from your contacts to chat with
+          </h1>
+          :
+          (!errorMsg
+            ?
+            <Messages
+              friendId={friendId}
+              chatData={messages}
+            />
+            :
+            <h1 className="error-msg text-center my-auto">{errorMsg}</h1>
+          )
+        )
       }
 
       <form action={chatHandler} className="absolute bottom-22 left-0 right-0 flex gap-2">

@@ -16,7 +16,7 @@ import Spinner from '../spinner/Spinner';
 export default function Contacts() {
   const { friendList, setFriendList } = useFriendContext();
 
-  const { loading } = useSocketIO();
+  const { loadingList } = useSocketIO();
 
   const { errors, setErrors, errorsHandler } = useErrors();
 
@@ -85,7 +85,7 @@ export default function Contacts() {
         </h2>
 
         <section className="relative flex flex-col min-h-[3.55em] rounded-lg border border-stone-800 px-2 divide-y">
-          {loading
+          {loadingList
             ?
             <Spinner />
             :
@@ -97,7 +97,7 @@ export default function Contacts() {
             ))
           }
 
-          {!loading && !friendList.length &&
+          {!loadingList && !friendList.length &&
             <div className="absolute flex-center inset-2">
               <p className="text-md font-bold txt-shadow">Your list is empty</p>
             </div>
