@@ -4,11 +4,10 @@ import { Server } from 'socket.io';
 
 import helmet from 'helmet';
 import cors from 'cors';
-import {
-  corsOptions,
-  expressSession,
-  wrapSession
-} from './middlewares/sessionMiddleware';
+import cookieParser from 'cookie-parser';
+import routes from './routes';
+
+import 'dotenv/config';
 
 import authorizeUser from './middlewares/socketMiddleware';
 
@@ -20,8 +19,6 @@ import dmFriendRedis from './utils/redis/dmFriendRedis';
 
 import clearUserRedis from './utils/redis/clearUserRedis';
 
-import routes from './routes';
-
 import { FriendT } from './types/friend/FriendT';
 import { DirectMsgT } from './types/friend/DirectMsgT';
 
@@ -29,24 +26,28 @@ const app = express();
 const port: number = 3000;
 const httpServer = createServer(app);
 
+const corsOptions = {
+  origin: process.env.CLIENT_URL as string,
+  credentials: true,
+};
+
 const io = new Server(httpServer, {
   cors: corsOptions,
 });
 
 app.use(helmet());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
-app.use(expressSession);
 app.use(routes);
 
-io.use(wrapSession(expressSession));
 io.use(authorizeUser);
 io.on('connection', (socket) => {
   setUserRedis(socket);
   getFriendIdRedis(socket);
 
-  socket.on('friend', (data: string, callback: (errMessage: string, res: FriendT[]) => void) => {
-    addFriendRedis({ socket, data, callback });
+  socket.on('friendName', (name: string, callback: (errMessage: string, res: FriendT[]) => void) => {
+    addFriendRedis({ socket, name, callback });
   });
 
   socket.on('friendId', (id: string, callback: (res: string) => void) => {
