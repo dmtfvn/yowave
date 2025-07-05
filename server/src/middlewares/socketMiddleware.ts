@@ -1,7 +1,5 @@
 import { ExtendedError, Socket } from 'socket.io';
 
-import { AuthorizedUserT } from '../types/request/AuthorizedUserT';
-
 const authorizeUser = (
   socket: Socket,
   next: (err?: ExtendedError | undefined) => void
