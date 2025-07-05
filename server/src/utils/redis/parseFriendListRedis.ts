@@ -1,4 +1,4 @@
-import { redisClient } from '../../lib/resid';
+import { redisClient } from '../../lib/redis';
 
 import { FriendT } from '../../types/friend/FriendT';
 

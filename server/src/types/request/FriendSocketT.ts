@@ -4,6 +4,6 @@ import { FriendT } from '../friend/FriendT';
 
 export type FriendSocketT = {
   socket: Socket;
-  data: string;
+  name: string;
   callback: (errMessage: string, res: FriendT[]) => void;
 };

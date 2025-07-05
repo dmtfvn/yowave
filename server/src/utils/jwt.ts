@@ -10,7 +10,7 @@ export function generateToken(data: UserDataT): string {
     userData: {
       userid: data.userid,
       username: data.username,
-    }
+    },
   };
 
   const result = jwt.sign(payload, secret, { expiresIn: '15min' });

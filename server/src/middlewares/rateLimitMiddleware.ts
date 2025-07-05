@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 
-import { redisClient } from '../lib/resid';
+import { redisClient } from '../lib/redis';
 
 export const rateLimit = (count: number) => {
   return async (

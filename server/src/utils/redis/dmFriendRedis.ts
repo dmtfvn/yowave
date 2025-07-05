@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 
 import { DirectMsgT } from '../../types/friend/DirectMsgT';
-import { redisClient } from '../../lib/resid';
+import { redisClient } from '../../lib/redis';
 
 export default async function dmFriendRedis(socket: Socket, data: DirectMsgT) {
   const message = [data.to, data.from, data.id, data.content].join('<{~}>');
