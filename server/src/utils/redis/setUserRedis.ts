@@ -1,12 +1,12 @@
 import { Socket } from 'socket.io';
 
-import getCookieUserData from '../getCookieUserData';
 import { redisClient } from '../../lib/redis';
-
 import parseFriendListRedis from './parseFriendListRedis';
 
+import { UserDataT } from '../../types/user/UserDataT';
+
 export default async function setUserRedis(socket: Socket) {
-  const userData = getCookieUserData(socket);
+  const userData: UserDataT = socket.data.userData;
 
   const username = userData.username;
   const userId = userData.userid;

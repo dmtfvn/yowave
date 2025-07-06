@@ -1,14 +1,14 @@
-import { FriendIdSocketT } from '../../types/request/FriendIdSocketT';
-
-import getCookieUserData from '../getCookieUserData';
 import { redisClient } from '../../lib/redis';
+
+import { FriendIdSocketT } from '../../types/request/FriendIdSocketT';
+import { UserDataT } from '../../types/user/UserDataT';
 
 export default async function addFriendIdRedis({
   socket,
   id,
   callback
 }: FriendIdSocketT): Promise<void> {
-  const userData = getCookieUserData(socket);
+  const userData: UserDataT = socket.data.userData;
 
   const username = userData.username;
 

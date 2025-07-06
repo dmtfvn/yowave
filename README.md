@@ -26,11 +26,11 @@ YOWAVE is a simple chat application.
 
 >*CORS*
 
->*express-session*
-
 >*Redis*
 
 >*bcrypt*
+
+>*jwt*
 
 >*Yup*
 
