@@ -1,11 +1,9 @@
 import { Router } from 'express';
 import { Request, Response } from 'express-serve-static-core';
-
-// import { AuthUserT } from '../types/response/AuthUserT';
-// import { SessionUserT } from '../types/session/SessionUserT';
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
 import { verifyToken } from '../utils/jwt';
-import { JwtPayload } from 'jsonwebtoken';
+import { cookieOptions } from '../config/cookieOptions';
 
 const cookieName = process.env.AUTH_COOKIE as string;
 
@@ -16,7 +14,6 @@ userController.get('/user', async (
   res: Response
 ) => {
   const token: string = req.cookies[cookieName];
-  // console.log(token)
 
   if (!token) {
     res.status(401).send();
@@ -24,14 +21,18 @@ userController.get('/user', async (
   }
 
   try {
-    const sessionData = verifyToken(token);
+    const tokenData = verifyToken(token);
 
-    res.status(200).json({ ...sessionData, token });
+    res.status(200).json(tokenData);
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      res.status(401).send(err.message);
+    res.clearCookie(cookieName, { ...cookieOptions, path: '/' });
+
+    if (err instanceof TokenExpiredError) {
+      res.status(401).send('Token has expired');
+    } else if (err instanceof JsonWebTokenError) {
+      res.status(401).send('Invalid token');
     } else {
-      res.status(401).send('Unknown error');
+      res.status(401).send('Token verification error');
     }
   }
 });

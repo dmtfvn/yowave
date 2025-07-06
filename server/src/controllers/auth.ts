@@ -4,6 +4,7 @@ import { Request, Response } from 'express-serve-static-core';
 import { rateLimit } from '../middlewares/rateLimitMiddleware';
 import { validateLogin, validateSignup } from '../middlewares/authMiddleware';
 import { generateToken } from '../utils/jwt';
+import { cookieOptions } from '../config/cookieOptions';
 
 import authService from '../services/authService';
 import authErrorHandler from '../utils/auth/authErrorHandler';
@@ -29,11 +30,7 @@ authController.post('/login', rateLimit(10), validateLogin, async (
 
     const token = generateToken(data.userData);
 
-    res.cookie(cookieName, token, {
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    });
+    res.cookie(cookieName, token, cookieOptions);
 
     res.status(200).json(data);
   } catch (err: unknown) {
@@ -54,11 +51,7 @@ authController.post('/register', rateLimit(4), validateSignup, async (
 
     const token = generateToken(data.userData);
 
-    res.cookie(cookieName, token, {
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    });
+    res.cookie(cookieName, token, cookieOptions);
 
     res.status(200).json(data);
   } catch (err) {
@@ -72,14 +65,7 @@ authController.get('/logout', (
   req: Request,
   res: Response
 ) => {
-  if (cookieName) {
-    res.clearCookie(cookieName, {
-      path: '/',
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    });
-  }
+  res.clearCookie(cookieName, { ...cookieOptions, path: '/' });
 
   res.status(200).json({ message: 'Successful logout' });
 });
