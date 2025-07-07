@@ -7,8 +7,8 @@ import pool from '../config/db';
 import { LoginFormValues } from '../schemas/loginSchema';
 import { SignupFormValues } from '../schemas/signupSchema';
 
-import authErrorExtender from '../utils/auth/authErrorExtender';
-import authUserCreator from '../utils/auth/authUserCreator';
+import authErrorExtender from '../utils/authErrorExtender';
+import authUserCreator from '../utils/authUserCreator';
 
 import { AuthUserT } from '../types/response/AuthUserT';
 import { AllUserDataQueryT } from '../types/user/AllUserDataQueryT';

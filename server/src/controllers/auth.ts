@@ -7,7 +7,7 @@ import { generateToken } from '../utils/jwt';
 import { cookieOptions } from '../config/cookieOptions';
 
 import authService from '../services/authService';
-import authErrorHandler from '../utils/auth/authErrorHandler';
+import authErrorHandler from '../utils/authErrorHandler';
 
 import { RequestLoginT } from '../types/request/RequestLoginT';
 import { RequestSignupT } from '../types/request/RequestSignupT';
