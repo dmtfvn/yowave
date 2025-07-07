@@ -11,13 +11,12 @@ import 'dotenv/config';
 
 import authorizeUser from './middlewares/socketMiddleware';
 
-import setUserRedis from './utils/redis/setUserRedis';
-import getFriendIdRedis from './utils/redis/getFriendIdRedis';
-import addFriendRedis from './utils/redis/addFriendRedis';
-import addFriendIdRedis from './utils/redis/addFriendIdRedis';
-import dmFriendRedis from './utils/redis/dmFriendRedis';
-
-import clearUserRedis from './utils/redis/clearUserRedis';
+import setUserRedis from './redis/main/setUserRedis';
+import getFriendIdRedis from './redis/main/getFriendIdRedis';
+import addFriendRedis from './redis/main/addFriendRedis';
+import addFriendIdRedis from './redis/main/addFriendIdRedis';
+import dmFriendRedis from './redis/main/dmFriendRedis';
+import clearUserRedis from './redis/main/clearUserRedis';
 
 import { FriendT } from './types/friend/FriendT';
 import { DirectMsgT } from './types/friend/DirectMsgT';
