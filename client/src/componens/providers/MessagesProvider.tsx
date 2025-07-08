@@ -6,7 +6,9 @@ import { MessagesContext } from '../contexts/MessagesContext';
 
 import { DirectMsgT } from '../../types/friend/DirectMsgT';
 
-export default function MessagesProvider({ children }: ChildrenT) {
+export default function MessagesProvider({
+  children
+}: ChildrenT) {
   const [messages, setMessages] = useState<DirectMsgT[]>([]);
 
   return (
