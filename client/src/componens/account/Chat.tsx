@@ -38,7 +38,7 @@ export default function Chat() {
       to: friendId,
       from: userData.userid,
       id: uuidv4(),
-      content: data.chat,
+      content: data.chat
     };
 
     socket.emit('dm', msgData);

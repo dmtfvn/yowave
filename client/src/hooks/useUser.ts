@@ -9,7 +9,7 @@ export default function useUser() {
     loggedIn: false,
     userData: {
       userid: '',
-      username: '',
+      username: ''
     }
   });
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ export default function useUser() {
       loggedIn: false,
       userData: {
         userid: '',
-        username: '',
+        username: ''
       }
     });
   }
@@ -50,6 +50,6 @@ export default function useUser() {
     user,
     loading,
     userLogin,
-    userLogout,
+    userLogout
   };
 }

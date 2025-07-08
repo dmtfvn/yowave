@@ -6,7 +6,9 @@ import { ValidationErrorDetailsT } from '../types/validation-error/ValidationErr
 export default function useErrors() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const errorsHandler = (error: Error | ValidationErrorT): void => {
+  const errorsHandler = (
+    error: Error | ValidationErrorT
+  ): void => {
     if ((error as ValidationErrorT).name === 'ValidationError') {
       const accErrors = (error as ValidationErrorT).inner.reduce(
         (acc: Record<string, string>, err: ValidationErrorDetailsT) => {
@@ -26,6 +28,6 @@ export default function useErrors() {
   return {
     errors,
     setErrors,
-    errorsHandler,
+    errorsHandler
   };
 }

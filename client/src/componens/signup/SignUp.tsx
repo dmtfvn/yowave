@@ -10,7 +10,7 @@ import { useRegister } from '../../api/authApi';
 export default function SignUp() {
   const [formState, setFormState] = useState({
     username: '',
-    email: '',
+    email: ''
   });
 
   const { errors, isPending, registerAction } = useRegister();
@@ -20,7 +20,7 @@ export default function SignUp() {
 
     setFormState((curState) => ({
       ...curState,
-      [name]: value,
+      [name]: value
     }));
   }
 

@@ -7,7 +7,7 @@ import { baseUrl } from '../utils/consts';
 
 const socket: Socket<ServerToClientT, ClientToServerT> = io(baseUrl, {
   autoConnect: false,
-  withCredentials: true,
+  withCredentials: true
 });
 
 export default socket;

@@ -4,7 +4,11 @@ import { RequestOptionsT } from '../types/request/RequestOptionsT';
 import { UserT } from '../types/user/UserT';
 import { ErrorDataT } from '../types/response/ErrorDataT';
 
-async function request({ method, url, data }: RequestT): Promise<UserT | ErrorDataT> {
+async function request({
+  method,
+  url,
+  data
+}: RequestT): Promise<UserT | ErrorDataT> {
   const options: RequestOptionsT = {
     method,
     credentials: 'include',

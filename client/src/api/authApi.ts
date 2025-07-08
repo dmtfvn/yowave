@@ -25,7 +25,7 @@ export const useLogin = () => {
 
       const authData = await request.post(`${url}/login`, {
         email: userData.email,
-        password: userData.password,
+        password: userData.password
       });
 
       if ('status' in authData) {
@@ -48,7 +48,7 @@ export const useLogin = () => {
   return {
     error,
     isPending,
-    loginAction,
+    loginAction
   };
 }
 
@@ -62,13 +62,13 @@ export const useRegister = () => {
 
     try {
       const yupData: SignupFormValues = await signupSchema.validate(userData, {
-        abortEarly: false,
+        abortEarly: false
       });
 
       const authData = await request.post(`${url}/register`, {
         username: yupData.username,
         email: yupData.email,
-        password: yupData.password,
+        password: yupData.password
       });
 
       if ('status' in authData) {
@@ -91,7 +91,7 @@ export const useRegister = () => {
   return {
     errors,
     isPending,
-    registerAction,
+    registerAction
   };
 }
 
@@ -105,6 +105,6 @@ export const useLogout = () => {
   }
 
   return {
-    logoutHandler,
+    logoutHandler
   };
 }

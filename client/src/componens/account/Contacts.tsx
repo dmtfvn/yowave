@@ -32,7 +32,7 @@ export default function Contacts() {
 
     try {
       const friendData = await friendSchema.validate(data, {
-        abortEarly: false,
+        abortEarly: false
       });
 
       if (friendData.friend) {
