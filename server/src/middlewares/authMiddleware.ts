@@ -7,7 +7,9 @@ import { SignupFormValues, signupSchema } from '../schemas/signupSchema';
 import { RequestValidationT } from '../types/request/RequestValidationT';
 import { ResponseValidationT } from '../types/response/ResponseValidationT';
 
-const validateSchema = (schema: ObjectSchema<LoginFormValues | SignupFormValues>) => {
+const validateSchema = (
+  schema: ObjectSchema<LoginFormValues | SignupFormValues>
+) => {
   return async (
     req: RequestValidationT,
     res: ResponseValidationT,

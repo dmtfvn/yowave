@@ -1,6 +1,8 @@
 import { AuthErrorT } from '../types/response/AuthErrorT';
 
-export default function authErrorExtender(data?: string) {
+export default function authErrorExtender(
+  data?: string
+) {
   const err = new Error() as AuthErrorT;
 
   if (data) {

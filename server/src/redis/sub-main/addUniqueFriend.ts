@@ -5,7 +5,7 @@ import getFriendList from './getFriendList';
 export default async function addUniqueFriend(
   name: string,
   username: string,
-  friendId: string,
+  friendId: string
 ): Promise<boolean> {
   try {
     const friendList = await getFriendList(username);

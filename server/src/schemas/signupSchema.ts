@@ -21,7 +21,7 @@ export const signupSchema = Yup.object({
     .trim()
     .required('Password is required')
     .min(8, 'Password too short (min 8 chars)')
-    .max(16, 'Password too long (max 16 chars)'),
+    .max(16, 'Password too long (max 16 chars)')
 });
 
 export type SignupFormValues = Yup.InferType<typeof signupSchema>;

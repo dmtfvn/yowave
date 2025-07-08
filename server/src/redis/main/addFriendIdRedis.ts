@@ -24,7 +24,6 @@ export default async function addFriendIdRedis({
     );
 
     const friendId = await getFriendId(username);
-
     if (friendId) {
       callback(friendId);
     }

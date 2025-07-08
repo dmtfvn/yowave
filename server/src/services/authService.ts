@@ -22,7 +22,9 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
   `;
   const existingDataValues = [formData.email];
 
-  const result: QueryResult<AllUserDataQueryT> = await pool.query(existingDataQuery, existingDataValues);
+  const result: QueryResult<AllUserDataQueryT> = await pool.query(
+    existingDataQuery, existingDataValues
+  );
   if (!result.rowCount) {
     const err = authErrorExtender();
 
@@ -46,7 +48,9 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
   `;
   const existingDataValues = [formData.username, formData.email];
 
-  const result: QueryResult<UserDataQueryT> = await pool.query(existingDataQuery, existingDataValues);
+  const result: QueryResult<UserDataQueryT> = await pool.query(
+    existingDataQuery, existingDataValues
+  );
   if (result.rowCount) {
     const data = result.rows[0].username === formData.username ? 'Username' : 'Email';
 
@@ -64,7 +68,9 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
   `;
   const userValues = [formData.username, formData.email, hashedPass, uuidv4()];
 
-  const newUser: QueryResult<UserDataT> = await pool.query(userQuery, userValues);
+  const newUser: QueryResult<UserDataT> = await pool.query(
+    userQuery, userValues
+  );
 
   return authUserCreator(newUser.rows[0]);
 }
