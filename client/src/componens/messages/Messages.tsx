@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 
-import useFriendContext from '../../hooks/useFriendContext';
+import useFriendContext from '../../hooks/contexts/useFriendContext';
 
 import { MessagesT } from '../../types/messages/MessagesT';
 

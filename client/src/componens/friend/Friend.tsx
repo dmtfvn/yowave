@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 
-import useFriendContext from '../../hooks/useFriendContext';
+import useFriendContext from '../../hooks/contexts/useFriendContext';
 import socket from '../../lib/socket';
 
 import { FriendT } from '../../types/friend/FriendT';

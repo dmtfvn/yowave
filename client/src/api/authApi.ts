@@ -6,7 +6,7 @@ import { baseUrl } from '../utils/consts.js';
 import { SignupFormValues, signupSchema } from '../schemas/signupSchema.js';
 import useErrors from '../hooks/useErrors.js';
 
-import useUserContext from '../hooks/useUserContext.js';
+import useUserContext from '../hooks/contexts/useUserContext.js';
 
 const url = `${baseUrl}/auth`;
 
