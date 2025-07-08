@@ -1,7 +1,7 @@
-import useSocketIO from '../../hooks/useSocketIO';
+import useSocket from '../../hooks/sockets/useSocket';
 
 export default function Options() {
-  useSocketIO();
+  useSocket();
 
   return (
     <section className="flex-center">

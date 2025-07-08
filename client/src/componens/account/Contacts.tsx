@@ -1,6 +1,6 @@
 import { UserPlusIcon } from '@heroicons/react/24/solid';
 
-import useFriendContext from '../../hooks/useFriendContext';
+import useFriendContext from '../../hooks/contexts/useFriendContext';
 import useErrors from '../../hooks/useErrors';
 
 import { friendSchema } from '../../schemas/friendSchema';
@@ -8,7 +8,8 @@ import { friendSchema } from '../../schemas/friendSchema';
 import MainInput from '../inputs/main-input/MainInput';
 import Friend from '../friend/Friend';
 
-import useSocketIO from '../../hooks/useSocketIO';
+import useSocket from '../../hooks/sockets/useSocket';
+import useFriendListSocket from '../../hooks/sockets/useFriendListSocket';
 import socket from '../../lib/socket';
 
 import Spinner from '../spinner/Spinner';
@@ -16,7 +17,9 @@ import Spinner from '../spinner/Spinner';
 export default function Contacts() {
   const { friendList, setFriendList } = useFriendContext();
 
-  const { loadingList } = useSocketIO();
+  useSocket();
+
+  const { loadingList } = useFriendListSocket();
 
   const { errors, setErrors, errorsHandler } = useErrors();
 

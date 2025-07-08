@@ -1,11 +1,14 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { v4 as uuidv4 } from 'uuid';
 
-import useUserContext from '../../hooks/useUserContext';
-import useFriendContext from '../../hooks/useFriendContext';
-import useMessageContext from '../../hooks/useMessageContext';
+import useUserContext from '../../hooks/contexts/useUserContext';
+import useFriendContext from '../../hooks/contexts/useFriendContext';
+import useMessageContext from '../../hooks/contexts/useMessageContext';
 
-import useSocketIO from '../../hooks/useSocketIO';
+import useSocket from '../../hooks/sockets/useSocket';
+import useFriendChatSocket from '../../hooks/sockets/useFriendChatSocket';
+import useFriendListSocket from '../../hooks/sockets/useFriendListSocket';
+import useFriendIdSocket from '../../hooks/sockets/useFriendIdSocket';
 import socket from '../../lib/socket';
 
 import Messages from '../messages/Messages';
@@ -18,7 +21,11 @@ export default function Chat() {
   const { friendId } = useFriendContext();
   const { messages, setMessages } = useMessageContext();
 
-  const { errorMsg, loadingList } = useSocketIO();
+  useSocket();
+  useFriendChatSocket();
+
+  const { loadingList } = useFriendListSocket();
+  const { errorMsg } = useFriendIdSocket();
 
   const chatHandler = (formData: FormData) => {
     const data = Object.fromEntries(formData.entries()) as Record<string, string>;
