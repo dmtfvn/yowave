@@ -6,5 +6,5 @@ export const FriendsContext = createContext<FriendsContextT>({
   friendList: [],
   setFriendList: () => {},
   friendId: '',
-  setFriendId: () => {},
+  setFriendId: () => {}
 });

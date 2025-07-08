@@ -10,6 +10,7 @@ import socket from '../../lib/socket';
 
 import Messages from '../messages/Messages';
 import MainInput from '../inputs/main-input/MainInput';
+
 import Spinner from '../spinner/Spinner';
 
 export default function Chat() {

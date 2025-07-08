@@ -8,7 +8,7 @@ import { FriendT } from '../../types/friend/FriendT';
 export default function Friend({
   id,
   username,
-  online,
+  online
 }: FriendT) {
   const navigate = useNavigate();
 

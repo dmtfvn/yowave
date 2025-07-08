@@ -3,7 +3,7 @@ import { AuthInputUnctrlT } from '../../../types/inputs/AuthInputUnctrlT';
 export default function AuthInputUnctrl({
   label,
   hint,
-  error,
+  error
 }: AuthInputUnctrlT) {
   return (
     <input

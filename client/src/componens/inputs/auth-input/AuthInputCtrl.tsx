@@ -5,7 +5,7 @@ export default function AuthInputCtrl({
   hint,
   error,
   inputValue,
-  onTyping,
+  onTyping
 }: AuthInputCtrlT) {
   return (
     <input

@@ -7,7 +7,7 @@ import { MessagesT } from '../../types/messages/MessagesT';
 
 export default function Messages({
   friendId,
-  chatData,
+  chatData
 }: MessagesT) {
   const divRef = useRef<null | HTMLDivElement>(null);
 

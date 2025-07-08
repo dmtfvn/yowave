@@ -26,7 +26,7 @@ export const signupSchema = Yup.object({
     .transform((value) => value === '' ? undefined : value)
     .trim()
     .required('Please confirm your password')
-    .oneOf([Yup.ref('password')], 'Passwords don\'t match'),
+    .oneOf([Yup.ref('password')], 'Passwords don\'t match')
 });
 
 export type SignupFormValues = Yup.InferType<typeof signupSchema>;

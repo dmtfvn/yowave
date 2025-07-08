@@ -3,7 +3,7 @@ import { SubmitButtonT } from '../../../types/buttons/SubmitButtonT';
 export default function SubmitButton({
   pending,
   style,
-  label,
+  label
 }: SubmitButtonT) {
   return (
     <button

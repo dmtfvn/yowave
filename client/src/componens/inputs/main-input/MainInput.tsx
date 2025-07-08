@@ -2,7 +2,7 @@ import { MainInputT } from '../../../types/inputs/MainInputT';
 
 export default function MainInput({
   label,
-  hint,
+  hint
 }: MainInputT) {
   return (
     <input
