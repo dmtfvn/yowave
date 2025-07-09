@@ -2,7 +2,7 @@ import { QueryResult } from 'pg';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
-import pool from '../config/db';
+import pool from '../config/pgdb';
 
 import { LoginFormValues } from '../schemas/loginSchema';
 import { SignupFormValues } from '../schemas/signupSchema';

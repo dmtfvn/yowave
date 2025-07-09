@@ -17,7 +17,7 @@ const validateSchema = (
   ) => {
     try {
       const validatedUser = await schema.validate(req.body, {
-        abortEarly: false,
+        abortEarly: false
       });
 
       req.user = validatedUser;
