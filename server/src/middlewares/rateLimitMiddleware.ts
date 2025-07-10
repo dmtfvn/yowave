@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 
 import { redisClient } from '../lib/redis';
+import authErrorServer from '../utils/authErrorServer';
 
 export const rateLimit = (
   count: number
@@ -16,7 +17,10 @@ export const rateLimit = (
 
     const response = await redisClient.multi().incr(ip).expire(ip, 60).exec();
     if (Number(response[0]) > count) {
-      res.status(429).send({ message: 'Try again after one minute' });
+      const error = authErrorServer(new Error('Try again after one minute'), 429);
+
+      res.status(error.code).json(error);
+
       return;
     }
 

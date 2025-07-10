@@ -7,7 +7,7 @@ import pool from '../config/pgdb';
 import { LoginFormValues } from '../schemas/loginSchema';
 import { SignupFormValues } from '../schemas/signupSchema';
 
-import authErrorExtender from '../utils/authErrorExtender';
+import authErrorDbQuery from '../utils/authErrorDbQuery';
 import authUserCreator from '../utils/authUserCreator';
 
 import { AuthUserT } from '../types/response/AuthUserT';
@@ -26,14 +26,14 @@ async function login(formData: LoginFormValues): Promise<AuthUserT> {
     existingDataQuery, existingDataValues
   );
   if (!result.rowCount) {
-    const err = authErrorExtender();
+    const err = authErrorDbQuery();
 
     throw err;
   }
 
   const passMatch = await bcrypt.compare(formData.password, result.rows[0].passhash);
   if (!passMatch) {
-    const err = authErrorExtender();
+    const err = authErrorDbQuery();
 
     throw err;
   }
@@ -54,7 +54,7 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
   if (result.rowCount) {
     const data = result.rows[0].username === formData.username ? 'Username' : 'Email';
 
-    const err = authErrorExtender(data);
+    const err = authErrorDbQuery(data);
 
     throw err;
   }
@@ -77,5 +77,5 @@ async function register(formData: SignupFormValues): Promise<AuthUserT> {
 
 export default {
   register,
-  login,
+  login
 };
