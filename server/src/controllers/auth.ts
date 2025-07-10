@@ -7,13 +7,13 @@ import { generateToken } from '../utils/jwt';
 import { cookieOptions } from '../config/cookieOptions';
 
 import authService from '../services/authService';
-import authErrorHandler from '../utils/authErrorHandler';
+import authErrorServer from '../utils/authErrorServer';
 
 import { RequestLoginT } from '../types/request/RequestLoginT';
 import { RequestSignupT } from '../types/request/RequestSignupT';
 
 import { AuthUserT } from '../types/response/AuthUserT';
-import { FailedQueryT } from '../types/response/FailedQueryT';
+import { FailedAuthUserT } from '../types/response/FailedAuthUserT';
 
 const cookieName = process.env.AUTH_COOKIE as string;
 
@@ -21,7 +21,7 @@ const authController = Router();
 
 authController.post('/login', rateLimit(10), validateLogin, async (
   req: RequestLoginT,
-  res: Response<AuthUserT | FailedQueryT>
+  res: Response<AuthUserT | FailedAuthUserT>
 ) => {
   const formData = req.user;
 
@@ -34,15 +34,15 @@ authController.post('/login', rateLimit(10), validateLogin, async (
 
     res.status(200).json(data);
   } catch (err: unknown) {
-    const { code, body } = authErrorHandler(err, 401);
+    const error = authErrorServer(err, 401);
 
-    res.status(code).json(body);
+    res.status(error.code).json(error);
   }
 });
 
 authController.post('/register', rateLimit(4), validateSignup, async (
   req: RequestSignupT,
-  res: Response<AuthUserT | FailedQueryT>
+  res: Response<AuthUserT | FailedAuthUserT>
 ) => {
   const formData = req.user;
 
@@ -55,9 +55,9 @@ authController.post('/register', rateLimit(4), validateSignup, async (
 
     res.status(200).json(data);
   } catch (err) {
-    const { code, body } = authErrorHandler(err, 409);
+    const error = authErrorServer(err, 409);
 
-    res.status(code).json(body);
+    res.status(error.code).json(error);
   }
 });
 

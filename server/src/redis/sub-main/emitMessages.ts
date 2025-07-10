@@ -6,26 +6,22 @@ export default async function emitMessages(
   socket: Socket,
   userid: string
 ) {
-  try {
-    const chatData = await redisClient.lRange(
-      `chat:${userid}`, 0, -1
-    );
+  const chatData = await redisClient.lRange(
+    `chat:${userid}`, 0, -1
+  );
 
-    if (chatData.length) {
-      const msgData = chatData.map(d => {
-        const data = d.split('<{~}>');
+  if (chatData.length) {
+    const msgData = chatData.map(d => {
+      const data = d.split('<{~}>');
 
-        return {
-          to: data[0],
-          from: data[1],
-          id: data[2],
-          content: data[3],
-        };
-      });
+      return {
+        to: data[0],
+        from: data[1],
+        id: data[2],
+        content: data[3]
+      };
+    });
 
-      socket.emit('messages', msgData);
-    }
-  } catch (err) {
-    throw err;
+    socket.emit('messages', msgData);
   }
 }
