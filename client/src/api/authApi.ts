@@ -1,17 +1,17 @@
-import { useActionState, useState } from 'react';
+import { useActionState } from 'react';
 
-import request from '../utils/request.js';
-import { baseUrl } from '../utils/consts.js';
+import useUserContext from '../hooks/contexts/useUserContext.js';
 
 import { SignupFormValues, signupSchema } from '../schemas/signupSchema.js';
 import useErrors from '../hooks/useErrors.js';
 
-import useUserContext from '../hooks/contexts/useUserContext.js';
+import request from '../utils/request.js';
+import { baseUrl } from '../utils/consts.js';
 
 const url = `${baseUrl}/auth`;
 
 export const useLogin = () => {
-  const [error, setError] = useState('');
+  const { errors, errorsHandler } = useErrors();
 
   const { userLogin } = useUserContext();
 
@@ -28,25 +28,17 @@ export const useLogin = () => {
         password: userData.password
       });
 
-      if ('status' in authData) {
-        throw new Error(authData.status);
-      }
-
       console.log('login', authData)
       userLogin(authData);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Unknown error');
-      }
+    } catch (err) {
+      errorsHandler(err);
     }
   }
 
   const [, loginAction, isPending] = useActionState(loginHandler, undefined);
 
   return {
-    error,
+    errors,
     isPending,
     loginAction
   };
@@ -71,18 +63,10 @@ export const useRegister = () => {
         password: yupData.password
       });
 
-      if ('status' in authData) {
-        throw new Error(authData.status);
-      }
-
       console.log('register', authData)
       userLogin(authData);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        errorsHandler(err);
-      } else {
-        errorsHandler(new Error('Unknown error'));
-      }
+    } catch (err) {
+      errorsHandler(err);
     }
   }
 

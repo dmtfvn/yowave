@@ -1,4 +1,4 @@
 export type ErrorDataT = {
-  loggedIn: boolean;
-  status: string;
+  code: number;
+  error: string;
 };

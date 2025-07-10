@@ -6,7 +6,7 @@ import SubmitButton from '../buttons/submit-button/SubmitButton';
 import { useLogin } from '../../api/authApi';
 
 export default function Login() {
-  const { error, isPending, loginAction } = useLogin();
+  const { errors, isPending, loginAction } = useLogin();
 
   return (
     <section className="auth-form-style">
@@ -37,8 +37,8 @@ export default function Login() {
           />
         </div>
 
-        {error &&
-          <p className="error-msg text-center">{error}</p>
+        {errors.general &&
+          <p className="error-msg text-center">{errors.general}</p>
         }
 
         <SubmitButton

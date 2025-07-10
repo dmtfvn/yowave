@@ -1,27 +1,26 @@
 import { useState } from 'react';
-
-import { ValidationErrorT } from '../types/validation-error/ValidationErrorT';
-import { ValidationErrorDetailsT } from '../types/validation-error/ValidationErrorDetailsT';
+import { ValidationError } from 'yup';
 
 export default function useErrors() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const errorsHandler = (
-    error: Error | ValidationErrorT
-  ): void => {
-    if ((error as ValidationErrorT).name === 'ValidationError') {
-      const accErrors = (error as ValidationErrorT).inner.reduce(
-        (acc: Record<string, string>, err: ValidationErrorDetailsT) => {
+    error: unknown
+  ) => {
+    if (error instanceof ValidationError) {
+      const accErrors = error.inner.reduce((acc, err) => {
+        if (err.path !== undefined) {
           acc[err.path] = err.message;
+        }
 
-          return acc;
-        },
-        {}
-      );
+        return acc;
+      }, {} as Record<string, string>);
 
       setErrors(accErrors);
-    } else {
+    } else if (error instanceof Error) {
       setErrors({ general: error.message });
+    } else {
+      setErrors({ general: 'Unknown error occurred' });
     }
   }
 

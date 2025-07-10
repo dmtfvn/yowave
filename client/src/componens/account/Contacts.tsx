@@ -46,12 +46,8 @@ export default function Contacts() {
           setErrors({});
         });
       }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        errorsHandler(err);
-      } else {
-        errorsHandler(new Error('Unknown error'));
-      }
+    } catch (err) {
+      errorsHandler(err);
     }
   }
 
