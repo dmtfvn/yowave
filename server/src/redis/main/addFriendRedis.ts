@@ -15,8 +15,8 @@ export default async function addFriendRedis({
   const userData: UserDataT = socket.data.userData;
 
   const username = userData.username;
-
-  if (!username || username === name) {
+  if (username === name) {
+    callback('You cannot add yourself', []);
     return;
   }
 
