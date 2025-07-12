@@ -1,15 +1,15 @@
-import { ExtendedError, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
 import { verifyToken } from '../utils/jwt';
 
+const access = process.env.JWT_ACCESS_SECRET as string;
+
 const authorizeUser = (
   socket: Socket,
-  next: (err?: ExtendedError | undefined) => void
+  next: (err?: Error | undefined) => void
 ) => {
-  const req = socket.request.headers.cookie;
-
-  const token = req?.split('=')[1];
+  const token = socket.handshake.auth.token;
 
   if (!token) {
     next(new Error('Not authorized'));
@@ -17,7 +17,7 @@ const authorizeUser = (
   }
 
   try {
-    const tokenData = verifyToken(token);
+    const tokenData = verifyToken(token, access);
 
     socket.data.userData = tokenData.userData;
 
