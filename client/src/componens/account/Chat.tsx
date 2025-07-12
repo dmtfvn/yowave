@@ -16,8 +16,13 @@ import MainInput from '../inputs/main-input/MainInput';
 
 import Spinner from '../spinner/Spinner';
 
+import request from '../../utils/request';
+import { baseUrl } from '../../utils/consts';
+
+const url = `${baseUrl}/auth`;
+
 export default function Chat() {
-  const { userData } = useUserContext();
+  const { userData, userLogout } = useUserContext();
   const { friendId } = useFriendContext();
   const { messages, setMessages } = useMessageContext();
 
@@ -27,10 +32,17 @@ export default function Chat() {
   const { loadingList } = useFriendListSocket();
   const { errorMsg } = useFriendIdSocket();
 
-  const chatHandler = (formData: FormData) => {
+  const chatHandler = async (formData: FormData) => {
     const data = Object.fromEntries(formData.entries()) as Record<string, string>;
 
     if (!data.chat || !friendId) {
+      return;
+    }
+
+    try {
+      await request.post(`${url}/refresh`, {});
+    } catch {
+      userLogout();
       return;
     }
 
