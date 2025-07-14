@@ -12,9 +12,11 @@ const socket: Socket<ServerToClientT, ClientToServerT> = io(baseUrl, {
   auth: (callback) => {
     const token = Cookie.get('accessToken');
 
-    if (token) {
-      callback({ token });
+    if (!token) {
+      return callback({});
     }
+
+    callback({ token });
   }
 });
 

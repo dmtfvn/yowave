@@ -19,7 +19,7 @@ export default function useSocket() {
     socket.on('connect_error', async (err: Error) => {
       console.log(err.message)
 
-      if (err.message === 'Token has expired') {
+      if (err.message === 'Token has expired' || err.message === 'Token missing') {
         try {
           await request.post(`${url}/refresh`, {});
 
