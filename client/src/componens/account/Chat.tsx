@@ -1,30 +1,22 @@
+import { FaceSmileIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
-import { v4 as uuidv4 } from 'uuid';
 
-import useUserContext from '../../hooks/contexts/useUserContext';
+import EmojiPicker from 'emoji-picker-react';
+
+import useEmoji from '../../hooks/chat/useEmoji';
 import useFriendContext from '../../hooks/contexts/useFriendContext';
-import useMessageContext from '../../hooks/contexts/useMessageContext';
-
 import useSocket from '../../hooks/sockets/useSocket';
 import useFriendChatSocket from '../../hooks/sockets/useFriendChatSocket';
 import useFriendListSocket from '../../hooks/sockets/useFriendListSocket';
 import useFriendIdSocket from '../../hooks/sockets/useFriendIdSocket';
-import socket from '../../lib/socket';
 
 import Messages from '../messages/Messages';
-import MainInput from '../inputs/main-input/MainInput';
 
 import Spinner from '../spinner/Spinner';
-
-import request from '../../utils/request';
-import { baseUrl } from '../../utils/consts';
-
-const url = `${baseUrl}/auth`;
+import useChat from '../../hooks/chat/useChat';
 
 export default function Chat() {
-  const { userData, userLogout } = useUserContext();
   const { friendId } = useFriendContext();
-  const { messages, setMessages } = useMessageContext();
 
   useSocket();
   useFriendChatSocket();
@@ -32,30 +24,11 @@ export default function Chat() {
   const { loadingList } = useFriendListSocket();
   const { errorMsg } = useFriendIdSocket();
 
-  const chatHandler = async (formData: FormData) => {
-    const data = Object.fromEntries(formData.entries()) as Record<string, string>;
+  const { inputValue, setInputValue, inputRef, handleEmojiPick } = useEmoji();
+  const { messages, openPicker, setOpenPicker, chatHandler } = useChat({ inputValue, setInputValue });
 
-    if (!data.chat || !friendId) {
-      return;
-    }
-
-    try {
-      await request.post(`${url}/refresh`, {});
-    } catch {
-      userLogout();
-      return;
-    }
-
-    const msgData = {
-      to: friendId,
-      from: userData.userid,
-      id: uuidv4(),
-      content: data.chat
-    };
-
-    socket.emit('dm', msgData);
-
-    setMessages(curState => [msgData, ...curState]);
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   }
 
   return (
@@ -82,13 +55,35 @@ export default function Chat() {
         )
       }
 
-      <form action={chatHandler} className="absolute bottom-22 left-0 right-0 flex gap-2">
-        <MainInput
-          label="chat"
-          hint="Type here to start a chat"
+      <div className="fixed bottom-38">
+        <EmojiPicker
+          open={openPicker}
+          width={328}
+          onEmojiClick={handleEmojiPick}
+          autoFocusSearch={false}
+          lazyLoadEmojis={true}
+          className="absolute left-0 right-0 z-20"
+        />
+      </div>
+
+      <form onSubmit={chatHandler} className="absolute bottom-22 left-0 right-0 flex gap-2">
+        <FaceSmileIcon
+          onClick={() => setOpenPicker(prev => !prev)}
+          className="size-10 cursor-pointer"
         />
 
-        <button className="flex justify-center max-w-[4rem] w-full rounded-md bg-stone-800 py-2.5 cursor-pointer">
+        <input
+          ref={inputRef}
+          type="text"
+          name="chat"
+          value={inputValue}
+          onChange={inputChangeHandler}
+          placeholder="Type here to start a chat"
+          autoComplete="off"
+          className="main-input-style"
+        />
+
+        <button className="flex-center max-w-[4rem] w-full rounded-md bg-stone-800 py-2.5 cursor-pointer">
           <PaperAirplaneIcon className="size-4" />
         </button>
       </form>
