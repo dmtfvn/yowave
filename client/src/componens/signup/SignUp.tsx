@@ -18,8 +18,8 @@ export default function SignUp() {
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormState((curState) => ({
-      ...curState,
+    setFormState(prev => ({
+      ...prev,
       [name]: value
     }));
   }

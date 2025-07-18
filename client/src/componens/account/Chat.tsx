@@ -1,7 +1,7 @@
 import { FaceSmileIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker, { Theme } from 'emoji-picker-react';
 
 import useEmoji from '../../hooks/chat/useEmoji';
 import useFriendContext from '../../hooks/contexts/useFriendContext';
@@ -24,11 +24,19 @@ export default function Chat() {
   const { loadingList } = useFriendListSocket();
   const { errorMsg } = useFriendIdSocket();
 
-  const { inputValue, setInputValue, inputRef, handleEmojiPick } = useEmoji();
+  const { inputValue, setInputValue, inputRef, pickEmojiHandler } = useEmoji();
   const { messages, openPicker, setOpenPicker, chatHandler } = useChat({ inputValue, setInputValue });
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  }
+
+  const toggleEmojiPicker = () => {
+    setOpenPicker(prev => !prev);
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }
 
   return (
@@ -55,11 +63,12 @@ export default function Chat() {
         )
       }
 
-      <div className="fixed bottom-38">
+      <div className="fixed bottom-34">
         <EmojiPicker
           open={openPicker}
+          theme={Theme.DARK}
           width={328}
-          onEmojiClick={handleEmojiPick}
+          onEmojiClick={pickEmojiHandler}
           autoFocusSearch={false}
           lazyLoadEmojis={true}
           className="absolute left-0 right-0 z-20"
@@ -68,7 +77,7 @@ export default function Chat() {
 
       <form onSubmit={chatHandler} className="absolute bottom-22 left-0 right-0 flex gap-2">
         <FaceSmileIcon
-          onClick={() => setOpenPicker(prev => !prev)}
+          onClick={toggleEmojiPicker}
           className="size-10 cursor-pointer"
         />
 

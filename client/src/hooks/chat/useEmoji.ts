@@ -6,7 +6,7 @@ export default function useEmoji() {
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleEmojiPick = (e: EmojiClickEventT) => {
+  const pickEmojiHandler = (e: EmojiClickEventT) => {
     const emoji = e.emoji;
     const input = inputRef.current;
 
@@ -32,6 +32,6 @@ export default function useEmoji() {
     inputValue,
     setInputValue,
     inputRef,
-    handleEmojiPick
+    pickEmojiHandler
   };
 }

@@ -11,6 +11,8 @@ YOWAVE is a simple chat application.
 
 >*Tailwind*
 
+>*Emoji Picker React (v4)*
+
 >*Yup*
 
 <br>

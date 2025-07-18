@@ -5,7 +5,6 @@ import useErrors from '../../hooks/useErrors';
 
 import { friendSchema } from '../../schemas/friendSchema';
 
-import MainInput from '../inputs/main-input/MainInput';
 import Friend from '../friend/Friend';
 
 import useSocket from '../../hooks/sockets/useSocket';
@@ -67,9 +66,12 @@ export default function Contacts() {
         }
 
         <div className="flex flex-col w-full gap-2">
-          <MainInput
-            label="friend"
-            hint="Type here to add a contact"
+          <input
+            type="text"
+            name="friend"
+            placeholder="Type here to add a contact"
+            autoComplete="off"
+            className="main-input-style"
           />
 
           <button className="flex justify-center w-full rounded-md bg-stone-800 py-2 cursor-pointer">

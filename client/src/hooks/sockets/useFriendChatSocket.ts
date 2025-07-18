@@ -14,7 +14,7 @@ export default function useFriendChatSocket() {
     });
 
     socket.on('msg', (data: DirectMsgT) => {
-      setMessages(curState => [data, ...curState]);
+      setMessages(prev => [data, ...prev]);
     });
 
     return () => {

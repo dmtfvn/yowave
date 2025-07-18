@@ -35,8 +35,8 @@ export default function useSocket() {
     });
 
     socket.on('friendStatus', (username, status) => {
-      setFriendList(curState => {
-        return curState.map(f => {
+      setFriendList(prev => {
+        return prev.map(f => {
           if (f.username === username) {
             f.online = status;
           }
