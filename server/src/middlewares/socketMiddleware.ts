@@ -9,15 +9,15 @@ const authorizeUser = (
   socket: Socket,
   next: (err?: Error | undefined) => void
 ) => {
-  const token = socket.handshake.auth.token;
+  const accessToken = socket.handshake.auth.token;
 
-  if (!token) {
-    next(new Error('Not authorized'));
+  if (!accessToken) {
+    next(new Error('Token missing'));
     return;
   }
 
   try {
-    const tokenData = verifyToken(token, access);
+    const tokenData = verifyToken(accessToken, access);
 
     socket.data.userData = tokenData.userData;
 

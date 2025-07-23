@@ -12,12 +12,14 @@ export function generateToken(
     userData: {
       userid: data.userid,
       username: data.username
-    },
+    }
   };
 
-  const result = jwt.sign(payload, secret, { expiresIn: duration });
+  const token = jwt.sign(payload, secret, {
+    expiresIn: duration
+  });
 
-  return result;
+  return token;
 }
 
 export function verifyToken(
