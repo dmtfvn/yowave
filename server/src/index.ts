@@ -20,6 +20,7 @@ import clearUserRedis from './redis/main/clearUserRedis';
 
 import { FriendT } from './types/friend/FriendT';
 import { DirectMsgT } from './types/friend/DirectMsgT';
+import rmFriendRedis from './redis/main/rmFriendRedis';
 
 const app = express();
 const port: number = 3000;
@@ -55,6 +56,10 @@ io.on('connection', (socket) => {
 
   socket.on('dm', (data: DirectMsgT) => {
     dmFriendRedis(socket, data);
+  });
+
+  socket.on('rmFriend', (data: string) => {
+    rmFriendRedis(socket, data);
   });
 
   socket.on('disconnecting', () => {
