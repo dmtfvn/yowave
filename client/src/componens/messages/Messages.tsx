@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 
 import useFriendContext from '../../hooks/contexts/useFriendContext';
+
+import EllipsisOptions from '../ellipsis-options/EllipsisOptions';
 
 import { MessagesT } from '../../types/messages/MessagesT';
 
@@ -38,7 +39,7 @@ export default function Messages({
           {friend?.username}
         </p>
 
-        <EllipsisVerticalIcon className='size-8 rounded-full hover:bg-black/15 cursor-pointer' />
+        <EllipsisOptions />
       </div>
 
       <section className="messages-style custom-x-scroll">

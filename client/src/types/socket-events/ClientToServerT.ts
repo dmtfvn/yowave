@@ -11,4 +11,5 @@ export type ClientToServerT = {
     callback: (res: string) => void
   ) => void;
   dm: (data: DirectMsgT) => void;
+  rmFriend: (data: string) => void;
 };
