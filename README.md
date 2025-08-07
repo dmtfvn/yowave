@@ -67,13 +67,19 @@ Authenticated user will be able to:
 
 ### Check project current state:
 
->Create a table using the query in users.sql file, located in server folder.
+>Create a folder at a convenient location. Use your preferred IDE to open a terminal, navigate to the newly created folder, and execute the command:
 
->Create .env file using the env.template, located in server folder.
+```
+git clone https://github.com/dmtfvn/yowave.git .
+```
+
+>Create a table using the query in users.sql file, located in server folder
+
+>Create .env file using the env.template, located in server folder
 
 <br>
 
->Open a terminal, navigate to server folder, and execute the command:
+>Open a new terminal, navigate to server folder, and execute the command:
 
 ```
 npm i
@@ -84,7 +90,7 @@ npm run dev
 
 <br>
 
->Open a terminal, navigate to client folder, and execute the command:
+>Open a new terminal, navigate to client folder, and execute the command:
 
 ```
 npm i
@@ -92,3 +98,7 @@ npm i
 ```
 npm run dev
 ```
+
+<br>
+
+>Start the project by Ctrl + Left Mouse Click (on Windows), or ⌘ + Left Mouse Click (on Mac) on the localhost link
